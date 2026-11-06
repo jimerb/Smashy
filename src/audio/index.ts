@@ -36,6 +36,7 @@ export class SmashyAudio {
   private muted = false;
   private volume = 0.35;
   private failed = false;
+  private blocked = false;
   private lastPlay = new Map<SoundCue, number>();
   private breakageCache = new Map<string, AudioBuffer>();
   private breakageSequence = 0;
@@ -48,7 +49,9 @@ export class SmashyAudio {
       ? "unavailable"
       : this.muted
         ? "muted"
-        : (this.context?.state ?? "locked");
+        : this.blocked
+          ? "blocked"
+          : (this.context?.state ?? "locked");
   }
   async unlock(): Promise<boolean> {
     try {
@@ -74,9 +77,13 @@ export class SmashyAudio {
         this.compressor.connect(this.context.destination);
       }
       if (this.context.state !== "running") await this.context.resume();
+      this.blocked = false;
       return this.context.state === "running";
-    } catch {
-      this.failed = true;
+    } catch (error) {
+      const name = (error as { name?: string })?.name;
+      if (name === "NotAllowedError" || name === "AbortError")
+        this.blocked = true;
+      else this.failed = true;
       return false;
     }
   }

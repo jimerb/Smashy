@@ -92,7 +92,7 @@ For example, matching three and dropping four earns **10 + 160 = 170 points**, b
 
 On touch, a captured drag keeps aiming after your finger leaves the card. Release over **Cancel** to cancel the shot. A small tap does not fire.
 
-**Escape** pauses; **M** toggles sound effects. The top controls open personal scores, Help, sound, and Pause. Help includes illustrated examples you can replay without spending a real shot.
+**Escape** pauses; **M** toggles sound effects. The top controls open personal scores, Help, audio controls, and Pause. Help includes illustrated examples you can replay without spending a real shot.
 
 Want a little help lining things up? **Guide** previews the full path, including rebounds. **Undo** restores the previous settled shot and **costs 500 points by default**. It restores the pre-shot score before deducting the cost, so you need 500 points from before that shot; the shot's earned points are removed too. Hover over **Undo shot** to see the cost. Settings → **500-point Undo penalty** can turn the cost off for free Undo. Either Guide or a successful Undo marks the attempt **Assisted**, with its own record category; turning Guide off or disabling the penalty does not remove that marker.
 
@@ -110,7 +110,7 @@ Want a little help lining things up? **Guide** previews the full path, including
 
 Smashy defaults to a dark theme with muted accents. Settings include sound volume, reduced motion, color intensity, board brightness, extra shape marks, and a **Simple backdrop** that removes the workshop decoration.
 
-The background soundtrack starts after your first tap, click, or keypress at a quiet **8% volume**. Settings has separate **music volume** and **music mute** controls, independent of sound effects. The four supplied songs play in order—**Relaxed Pocket → Soft Pixel Play → Cozy Game Loop → Puzzle Pulse**—with **five seconds of silence between songs**, then loop back to the beginning. Music continues in menus and Settings and pauses when you leave the tab. Your music preferences are remembered in this browser.
+The background soundtrack starts after your first tap, click, or keypress at a quiet **8% volume**. The header **speaker** opens a compact mixer with **Music** and **Sound** rows: each has its own mute button and volume slider. The same controls are available in Settings. Music and effects start from your first completed tap or click; saved mute and volume choices are respected. The four supplied songs play in order—**Relaxed Pocket → Soft Pixel Play → Cozy Game Loop → Puzzle Pulse**—with **five seconds of silence between songs**, then loop back to the beginning. Music continues in menus and Settings and pauses when you leave the tab. Your music preferences are remembered in this browser.
 
 The complete playfield scales to the available screen. Compact layouts and a separate touch aiming card help keep your hand away from the board. If a board cannot fit readably, the game preserves it and asks for more room rather than cropping the launcher or shrinking the toys too far.
 

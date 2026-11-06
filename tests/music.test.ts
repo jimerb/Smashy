@@ -98,7 +98,7 @@ function fixture() {
     }
     now = end;
   }
-  return { player, media, gain, advance, creations: () => creations };
+  return { player, media, context, gain, advance, creations: () => creations };
 }
 test("music is lazy, quiet by default, ordered 1-4 and loops with exactly five-second gaps", async () => {
   const f = fixture();
@@ -195,6 +195,57 @@ test("autoplay rejection waits for a new gesture and rapid mute ignores old play
   await flush();
   assert(g.media.paused);
   assert.equal(g.player.state, "muted");
+});
+
+test("a completed tap can recover a pending pointer-down audio resume without toggling mute", async () => {
+  const f = fixture();
+  let finish!: () => void;
+  f.media.deferred = new Promise<void>((resolve) => {
+    finish = resolve;
+  });
+  f.player.startFromGesture();
+  assert.equal(f.player.state, "loading");
+  f.media.paused = true;
+  f.media.deferred = null;
+  f.player.startFromGesture();
+  await flush();
+  assert.equal(f.player.state, "playing");
+  assert.equal(f.media.plays.length, 2);
+  assert.equal(f.creations(), 1);
+  assert.equal(f.gain.value, MUSIC_DEFAULT_VOLUME);
+  finish();
+  await flush();
+  assert.equal(
+    f.media.paused,
+    false,
+    "A stale first promise cannot stop the completed-tap retry",
+  );
+});
+test("a completed tap retries a suspended context even while media play is pending", async () => {
+  const f = fixture();
+  let rejectFirst!: (error: Error) => void;
+  f.context.resume = () =>
+    new Promise<void>((_, reject) => {
+      rejectFirst = reject;
+    });
+  f.player.startFromGesture();
+  assert.equal(f.media.paused, false);
+  assert.equal(f.context.state, "suspended");
+  f.context.resume = () => {
+    f.context.state = "running";
+    return Promise.resolve();
+  };
+  f.player.startFromGesture();
+  await flush();
+  assert.equal(f.player.state, "playing");
+  rejectFirst(
+    Object.assign(new Error("old gesture rejected"), {
+      name: "NotAllowedError",
+    }),
+  );
+  await flush();
+  assert.equal(f.player.state, "playing");
+  assert.equal(f.creations(), 1);
 });
 test("missing tracks fail quietly after one bounded cycle, with no retry storm", async () => {
   const f = fixture();

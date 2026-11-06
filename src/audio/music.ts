@@ -99,6 +99,15 @@ export class SmashyMusic {
   startFromGesture() {
     this.wanted = true;
     this.blocked = false;
+    // WebKit may leave a pointer-down resume pending until touchend/click.
+    // A real later gesture must be able to retry, without resetting the song.
+    if (
+      this.pending &&
+      (this.context?.state !== "running" || this.media?.paused)
+    ) {
+      this.epoch++;
+      this.pending = false;
+    }
     this.reconcile();
   }
   private initialize() {

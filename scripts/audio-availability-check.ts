@@ -33,14 +33,16 @@ try {
         !(document.querySelector("#fire-button") as HTMLButtonElement).disabled,
     );
     const sound = p.locator('#game [data-action="sound"]');
-    await p.waitForFunction(() =>
-      document
-        .querySelector('#game [data-action="sound"]')!
-        .getAttribute("aria-label")!
-        .includes("unavailable"),
+    await sound.click();
+    await p.locator("#audio-flyout-status").waitFor({ state: "visible" });
+    assert.match(
+      await p.locator("#audio-flyout-status").innerText(),
+      failure === "resume"
+        ? /Tap a control to start sound effects/
+        : /Sound effects unavailable/,
     );
-    assert.equal(await sound.getAttribute("aria-pressed"), "false");
-    assert.match((await sound.getAttribute("title")) || "", /unavailable/);
+    assert.equal(await sound.getAttribute("aria-expanded"), "true");
+    await p.keyboard.press("Escape");
     await p.locator("#input").focus();
     await p.keyboard.press("Space");
     await p.waitForFunction(
@@ -54,10 +56,12 @@ try {
     await p.getByRole("button", { name: "Settings", exact: true }).click();
     assert.match(
       await p.locator("#dialog-body").innerText(),
-      /Sound effects are unavailable\. Play continues without effects/,
+      failure === "resume"
+        ? /Sound effects are waiting for a tap/
+        : /Sound effects are unavailable\. Play continues without effects/,
     );
     await p.locator("#setting-muted").uncheck();
-    assert.equal(await sound.getAttribute("aria-pressed"), "false");
+    assert.equal(await sound.getAttribute("aria-expanded"), "false");
     await p.keyboard.press("Escape");
     await p.getByRole("button", { name: "Resume", exact: true }).click();
     await p.waitForFunction(
