@@ -18,7 +18,6 @@ import {
   cellCenter,
   pointOnTrace,
   cloneState,
-  undoState,
   validateState,
   TYPE_NAMES,
   type GameState,
@@ -29,6 +28,7 @@ import {
   type Difficulty,
 } from "./core";
 import { LESSONS, lessonGame } from "./content/lessons";
+import { applyUndo, canUndoShot, UNDO_PENALTY } from "./undo";
 import { PUZZLES, puzzleGame, PUZZLE_CONTENT_VERSION } from "./content/puzzles";
 import { version as appVersion } from "../package.json";
 import {
@@ -151,6 +151,7 @@ $("#game .actions").insertAdjacentHTML(
   '<span class="mobile-context" id="mobile-context"></span>',
 );
 interface Settings {
+  undoPenalty: boolean;
   muted: boolean;
   volume: number;
   reduced: boolean;
@@ -162,6 +163,7 @@ interface Settings {
   brightness: number;
 }
 const defaults: Settings = {
+  undoPenalty: true,
   muted: false,
   volume: 0.35,
   reduced: matchMedia("(prefers-reduced-motion: reduce)").matches,
@@ -177,6 +179,7 @@ try {
   const s = JSON.parse(localStorage.getItem("smashy.settings.v1") || "null");
   if (s && typeof s === "object") {
     for (const k of [
+      "undoPenalty",
       "muted",
       "reduced",
       "reducedDecoration",
@@ -885,8 +888,19 @@ ${game.config.profile} layout · ${game.assisted ? "Assisted" : "Unassisted"}`;
     guide ? "Guide on" : "Guide off",
   );
   $("#guide-button").setAttribute("aria-pressed", String(guide));
-  $<HTMLButtonElement>("#undo-button").disabled =
-    !undo || !!flight || game.status !== "ready";
+  const undoButton = $<HTMLButtonElement>("#undo-button");
+  undoButton.disabled =
+    !canUndoShot(undo, game, settings.undoPenalty) ||
+    !!flight ||
+    paused ||
+    needsSpace ||
+    busy ||
+    stale ||
+    $<HTMLDialogElement>("#dialog").open;
+  undoButton.title = settings.undoPenalty
+    ? "Undo costs 500 points. Restores the pre-shot score, then deducts 500. You need 500 points before that shot."
+    : "Undo is free (penalty off). Restores the pre-shot score and marks this run Assisted.";
+  undoButton.setAttribute("aria-description", undoButton.title);
   $<HTMLButtonElement>("#fire-button").disabled =
     paused ||
     needsSpace ||
@@ -1331,7 +1345,7 @@ async function retrySaving() {
 function showSettings() {
   openDialog(
     "Make yourself comfortable",
-    `<label class="setting-row"><span>Sound effects<small>Soft taps, clicks and crumbling sounds.</small></span><input id="setting-muted" type="checkbox" ${!settings.muted ? "checked" : ""}></label><label class="setting-row"><span>Effects volume</span><input id="setting-volume" type="range" min="0" max="1" step="0.05" value="${settings.volume}"></label><label class="setting-row"><span>Reduced motion<small>Less movement. Same rules and score.</small></span><input id="setting-reduced" type="checkbox" ${settings.reduced ? "checked" : ""}></label><label class="setting-row"><span>Simple backdrop<small>Remove workshop props and frame texture. Keep the toys, controls and motion.</small></span><input id="setting-decoration" type="checkbox" ${settings.reducedDecoration ? "checked" : ""}></label><label class="setting-row"><span>Full path guide<small>Marks an active continuing run Assisted permanently. After a finished run, applies to your next attempt.</small></span><input id="setting-guide" type="checkbox" ${(started ? guide : settings.guide) ? "checked" : ""}></label><label class="setting-row"><span>Separate Fire button<small>Aiming touches never fire on release.</small></span><input id="setting-input" type="checkbox" ${settings.input === "fire" ? "checked" : ""}></label><label class="setting-row"><span>Color intensity</span><input id="setting-intensity" type="range" min="0.7" max="1" step="0.05" value="${settings.intensity}"></label><label class="setting-row"><span>Shape marks<small>Extra identity marks and stronger outlines.</small></span><input id="setting-glyphs" type="checkbox" ${settings.glyphs ? "checked" : ""}></label><label class="setting-row"><span>Board brightness</span><input id="setting-brightness" type="range" min="0.75" max="1" step="0.05" value="${settings.brightness}"></label><p class="small muted">Camera shake is off. There is no background music track. No setting changes the board or score.</p>`,
+    `<label class="setting-row"><span>Sound effects<small>Soft taps, clicks and crumbling sounds.</small></span><input id="setting-muted" type="checkbox" ${!settings.muted ? "checked" : ""}></label><label class="setting-row"><span>Effects volume</span><input id="setting-volume" type="range" min="0" max="1" step="0.05" value="${settings.volume}"></label><label class="setting-row"><span>Reduced motion<small>Less movement. Same rules and score.</small></span><input id="setting-reduced" type="checkbox" ${settings.reduced ? "checked" : ""}></label><label class="setting-row"><span>Simple backdrop<small>Remove workshop props and frame texture. Keep the toys, controls and motion.</small></span><input id="setting-decoration" type="checkbox" ${settings.reducedDecoration ? "checked" : ""}></label><label class="setting-row"><span>Full path guide<small>Marks an active continuing run Assisted permanently. After a finished run, applies to your next attempt.</small></span><input id="setting-guide" type="checkbox" ${(started ? guide : settings.guide) ? "checked" : ""}></label><label class="setting-row"><span>500-point Undo penalty<small>On by default. Undo removes the last shot’s points, then costs 500 pre-shot points. Turn off for free Undo.</small></span><input id="setting-undo-penalty" type="checkbox" ${settings.undoPenalty ? "checked" : ""}></label><label class="setting-row"><span>Separate Fire button<small>Aiming touches never fire on release.</small></span><input id="setting-input" type="checkbox" ${settings.input === "fire" ? "checked" : ""}></label><label class="setting-row"><span>Color intensity</span><input id="setting-intensity" type="range" min="0.7" max="1" step="0.05" value="${settings.intensity}"></label><label class="setting-row"><span>Shape marks<small>Extra identity marks and stronger outlines.</small></span><input id="setting-glyphs" type="checkbox" ${settings.glyphs ? "checked" : ""}></label><label class="setting-row"><span>Board brightness</span><input id="setting-brightness" type="range" min="0.75" max="1" step="0.05" value="${settings.brightness}"></label><p class="small muted">Camera shake is off. There is no background music track. Presentation settings keep the rules unchanged. The Undo penalty setting controls whether each successful Undo costs 500 points.</p>`,
   );
   $<HTMLInputElement>("#setting-muted").onchange = (e) => {
     settings.muted = !(e.target as HTMLInputElement).checked;
@@ -1358,6 +1372,11 @@ function showSettings() {
   };
   $<HTMLInputElement>("#setting-guide").onchange = (e) => {
     toggleGuide((e.target as HTMLInputElement).checked);
+  };
+  $<HTMLInputElement>("#setting-undo-penalty").onchange = (e) => {
+    settings.undoPenalty = (e.target as HTMLInputElement).checked;
+    applySettings();
+    updateHUD();
   };
   $<HTMLInputElement>("#setting-input").onchange = (e) => {
     settings.input = (e.target as HTMLInputElement).checked
@@ -1454,11 +1473,22 @@ document.addEventListener("click", (event) => {
       toggleGuide();
       break;
     case "undo":
-      if (game && undo && !flight && game.status === "ready") {
-        game = undoState(undo, game);
+      if (
+        game &&
+        canUndoShot(undo, game, settings.undoPenalty) &&
+        !flight &&
+        !paused &&
+        !needsSpace &&
+        !busy &&
+        !stale &&
+        !$<HTMLDialogElement>("#dialog").open
+      ) {
+        const cost = settings.undoPenalty ? UNDO_PENALTY : 0;
+        game = applyUndo(undo, game, settings.undoPenalty);
         replay = undoReplay(
           replay ?? createReplay(game, PUZZLE_CONTENT_VERSION, true),
           game,
+          cost,
         );
         undo = null;
         audio.cancelPresentation();
@@ -1470,7 +1500,11 @@ document.addEventListener("click", (event) => {
         updateForecast();
         updateHUD();
         save();
-        showStatus("One shot undone. This attempt is Assisted.");
+        showStatus(
+          cost
+            ? "One shot undone. −500 points. This attempt is Assisted."
+            : "One shot undone for free. This attempt is Assisted.",
+        );
       }
       break;
     case "fire":

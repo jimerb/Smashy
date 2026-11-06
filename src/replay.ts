@@ -57,7 +57,14 @@ export function appendReplay(
   next.assisted ||= result.state.assisted;
   return next;
 }
-export function undoReplay(replay: ShotReplay, state: GameState): ShotReplay {
+export function undoReplay(
+  replay: ShotReplay,
+  state: GameState,
+  scorePenalty = 0,
+): ShotReplay {
+  // A paid rollback establishes a new exact baseline, so replaying future
+  // shots cannot recreate the removed awards or refund the penalty.
+  if (scorePenalty > 0) return createReplay(state, replay.contentVersion, true);
   if (!replay.events.length)
     return createReplay(state, replay.contentVersion, true);
   const next = structuredClone(replay);

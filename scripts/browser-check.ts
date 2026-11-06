@@ -234,6 +234,11 @@ try {
     () => document.querySelector("#shots")!.textContent === "1",
   );
   await waitReady();
+  await page.getByRole("button", { name: "Pause", exact: true }).click();
+  await page.locator('#overlay-card [data-action="settings"]').click();
+  await page.locator("#setting-undo-penalty").uncheck();
+  await page.getByRole("button", { name: "Done", exact: true }).click();
+  await page.locator('#overlay-card [data-action="resume"]').click();
   await page.getByRole("button", { name: "Undo", exact: true }).click();
   assert.equal(await page.locator("#shots").innerText(), "0");
   assert.equal(await page.locator("#assist-label").isVisible(), true);

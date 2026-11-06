@@ -155,6 +155,11 @@ try {
     () => document.querySelector("#shots")!.textContent === "1",
   );
   await ready();
+  await p.getByRole("button", { name: "Pause", exact: true }).click();
+  await p.locator('#overlay-card [data-action="settings"]').click();
+  await p.locator("#setting-undo-penalty").uncheck();
+  await p.getByRole("button", { name: "Done", exact: true }).click();
+  await p.locator('#overlay-card [data-action="resume"]').click();
   await p.getByRole("button", { name: "Undo", exact: true }).click();
   await p.setViewportSize({ width: 360, height: 640 });
   await p.waitForTimeout(180);

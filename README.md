@@ -90,7 +90,7 @@ On touch, a captured drag keeps aiming after your finger leaves the card. Releas
 
 **Escape** pauses; **M** toggles sound. The top controls open personal scores, Help, sound, and Pause. Help includes illustrated examples you can replay without spending a real shot.
 
-Want a little help lining things up? **Guide** previews the full path, including rebounds. **Undo** restores the previous settled shot. Either marks the attempt **Assisted**, with its own record category; turning Guide off does not remove that marker.
+Want a little help lining things up? **Guide** previews the full path, including rebounds. **Undo** restores the previous settled shot and **costs 500 points by default**. It restores the pre-shot score before deducting the cost, so you need 500 points from before that shot; the shot's earned points are removed too. Hover over **Undo shot** to see the cost. Settings → **500-point Undo penalty** can turn the cost off for free Undo. Either Guide or a successful Undo marks the attempt **Assisted**, with its own record category; turning Guide off or disabling the penalty does not remove that marker.
 
 ## Pick your kind of game
 

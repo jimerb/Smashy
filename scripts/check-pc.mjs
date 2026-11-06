@@ -8,6 +8,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 process.chdir(root);
 const scripts = [
   "browser-check",
+  "undo-browser-check",
   "input-check",
   "storage-browser-check",
   "assistance-browser-check",
