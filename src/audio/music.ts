@@ -24,6 +24,7 @@ export class SmashyMusic {
   private muted = false;
   private volume = MUSIC_DEFAULT_VOLUME;
   private hidden = false;
+  private gamePaused = false;
   private pending = false;
   private epoch = 0;
   private gap = false;
@@ -49,7 +50,7 @@ export class SmashyMusic {
   get state() {
     if (this.unavailable) return "unavailable";
     if (this.muted || this.volume === 0) return "muted";
-    if (this.hidden) return "paused";
+    if (this.hidden || this.gamePaused) return "paused";
     if (!this.wanted) return "locked";
     if (this.blocked) return "blocked";
     if (this.gap) return "gap";
@@ -63,6 +64,7 @@ export class SmashyMusic {
     return (
       this.wanted &&
       !this.hidden &&
+      !this.gamePaused &&
       !this.muted &&
       this.volume > 0 &&
       !this.unavailable
@@ -92,6 +94,13 @@ export class SmashyMusic {
   setHidden(hidden: boolean) {
     this.hidden = hidden;
     if (hidden) this.hold();
+    else this.reconcile();
+    this.changed();
+  }
+  /** Game pause is independent of visibility and saved audio preferences. */
+  setPaused(paused: boolean) {
+    this.gamePaused = paused;
+    if (paused) this.hold();
     else this.reconcile();
     this.changed();
   }

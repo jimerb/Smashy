@@ -365,7 +365,9 @@ const audioFlyout = mountAudioFlyout({
           ? "Tap a control to start music."
           : music.state === "unavailable"
             ? "Music unavailable. Reload to retry."
-            : "",
+            : music.state === "paused" && started && paused
+              ? "Music paused with the game."
+              : "",
         !audio.available
           ? "Sound effects unavailable."
           : audio.state === "blocked"
@@ -429,7 +431,9 @@ function updateMusicControls() {
             : music.state === "gap"
               ? `Five-second break · next: ${music.track.title}`
               : music.state === "paused"
-                ? "Music paused while this tab is away."
+                ? started && paused
+                  ? "Music paused with the game."
+                  : "Music paused while this tab is away."
                 : `${music.state === "loading" ? "Loading" : "Playing"}: ${music.track.title}`;
   const output = document.querySelector("#music-volume-value");
   if (output) output.textContent = `${Math.round(settings.musicVolume * 100)}%`;
@@ -884,6 +888,7 @@ async function newRun(
     stale = false;
     started = true;
     paused = false;
+    music.setPaused(false);
     needsSpace = false;
     audio.cancelPresentation();
     renderer?.reset();
@@ -959,6 +964,7 @@ async function resumeSaved() {
     stale = false;
     started = true;
     paused = true;
+    music.setPaused(true);
     $("#home").hidden = true;
     $("#game").hidden = false;
     $<HTMLSelectElement>("#profile").value = game.config.profile;
@@ -1267,6 +1273,7 @@ function nextBoard() {
   terminalRevealAt = 0;
   settleRemaining = 0;
   paused = false;
+  music.setPaused(false);
   audio.cancelPresentation();
   renderer?.reset();
   updateForecast();
@@ -1285,6 +1292,7 @@ function nextBoard() {
 function pause() {
   if (!started) return;
   paused = true;
+  music.setPaused(true);
   cancelGesture();
   activePointers.clear();
   audio.suspend();
@@ -1298,6 +1306,7 @@ async function resume() {
     if (stale || !game || game.status !== "ready" || needsSpace) return;
   }
   paused = false;
+  music.setPaused(false);
   cancelGesture();
   // Restore controls and remove the pause card as one operation. Optional
   // browser audio must not leave an interactive, stale card over live play.
@@ -1402,6 +1411,7 @@ function goHome() {
   $("#game").hidden = true;
   $("#home").hidden = false;
   started = false;
+  music.setPaused(false);
   updateHome();
 }
 function confirmAction(
@@ -1456,6 +1466,7 @@ function closeDialog() {
   if (d.open) d.close();
   if (started) {
     paused = true;
+    music.setPaused(true);
     showOverlay();
   }
   const target =

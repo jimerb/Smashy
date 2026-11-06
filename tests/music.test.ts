@@ -175,6 +175,70 @@ test("background visibility freezes audio and the remaining gap across preferenc
   assert.equal(f.media.plays.length, 2);
   assert.equal(f.gain.value, 0.12);
 });
+test("game pause preserves the song and cannot be bypassed by taps, settings or tab return", async () => {
+  const f = fixture();
+  f.player.startFromGesture();
+  await flush();
+  f.media.currentTime = 19;
+  f.player.setPaused(true);
+  assert(f.media.paused);
+  assert.equal(f.player.state, "paused");
+  assert.equal(f.gain.value, 0);
+  f.player.startFromGesture();
+  f.player.setPreferences(false, 0.19);
+  f.player.setHidden(true);
+  f.player.setHidden(false);
+  await flush();
+  assert(f.media.paused);
+  assert.equal(f.media.plays.length, 1);
+  f.player.setPaused(false);
+  await flush();
+  assert.equal(f.player.state, "playing");
+  assert.equal(f.media.currentTime, 19);
+  assert.equal(f.gain.value, 0.19);
+  f.player.setPaused(true);
+  f.player.setPreferences(true, 0.19);
+  f.player.setPaused(false);
+  assert(f.media.paused, "Resume respects a stored mute");
+});
+test("game pause freezes the remaining song gap independently of hidden state", async () => {
+  const f = fixture();
+  f.player.startFromGesture();
+  await flush();
+  f.media.dispatchEvent(new Event("ended"));
+  f.advance(2000);
+  f.player.setPaused(true);
+  f.player.setHidden(true);
+  f.advance(60000);
+  f.player.setHidden(false);
+  f.player.startFromGesture();
+  f.player.setPreferences(false, 0.08);
+  f.advance(60000);
+  assert.equal(f.media.plays.length, 1);
+  f.player.setPaused(false);
+  f.advance(2999);
+  assert.equal(f.media.plays.length, 1);
+  f.advance(1);
+  await flush();
+  assert.equal(f.media.plays[1], tracks[1].url);
+});
+test("pausing cancels a pending music startup before its promise resolves", async () => {
+  const f = fixture();
+  let finish!: () => void;
+  f.media.deferred = new Promise<void>((resolve) => {
+    finish = resolve;
+  });
+  f.player.startFromGesture();
+  f.player.setPaused(true);
+  finish();
+  await flush();
+  assert(f.media.paused);
+  assert.equal(f.player.state, "paused");
+  f.media.deferred = null;
+  f.player.setPaused(false);
+  await flush();
+  assert.equal(f.player.state, "playing");
+});
 test("autoplay rejection waits for a new gesture and rapid mute ignores old play promises", async () => {
   const f = fixture();
   f.media.failure = Object.assign(new Error("gesture required"), {
