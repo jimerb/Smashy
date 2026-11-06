@@ -34,6 +34,7 @@ const mime = {
   ".webp": "image/webp",
   ".svg": "image/svg+xml",
   ".m4a": "audio/mp4",
+  ".mp3": "audio/mpeg",
 };
 const server = http.createServer((req, res) => {
   if (!["GET", "HEAD"].includes(req.method)) {

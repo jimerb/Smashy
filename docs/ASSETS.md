@@ -13,7 +13,7 @@ The production build imports an explicit set of assets; it does not copy an enti
 
 ## Audio
 
-Game sound effects are synthesized by Smashy's own Web Audio code. Background music is a separate, prerecorded soundtrack supplied by the project owner.
+Core gameplay sound effects are synthesized by Smashy's own Web Audio code. Reward voice clips and the separate background soundtrack were supplied by the project owner.
 
 | Source | Purpose |
 | --- | --- |
@@ -21,6 +21,20 @@ Game sound effects are synthesized by Smashy's own Web Audio code. Background mu
 | `src/audio/breakage.ts` | Deterministic cosmetic crack/debris noise generated into audio buffers, varied by the number of pieces and presentation style |
 
 Sound uses cosmetic state and never determines the board, queue, scoring or gameplay randomness.
+
+### Reward voice clips
+
+The three supplied MP3 recordings are imported explicitly from `public/sounds/`:
+
+| Dropped support pieces in one shot | Voice reward | Runtime source |
+| --- | --- | --- |
+| 0–6 | None | — |
+| 7–9 | One randomly chosen Wheeee | `public/sounds/wheeee-1.mp3` or `public/sounds/wheeee-2.mp3` |
+| 10 or more | Ooo-Smashy, without a Wheeee clip | `public/sounds/ooo-smashy.mp3` |
+
+Only unsupported pieces that **drop** count toward these thresholds. Pieces removed by the matching group do not count. Each qualifying shot selects one reward clip; it never stacks the two reward tiers.
+
+Reward voices share the same **Sound** mute and volume controls as other sound effects. Music remains independently controlled. Playback balances the clips' levels without rewriting the supplied MP3 files. The build audit requires exactly these three named clips and verifies that their packaged bytes match the curated runtime inputs.
 
 ### Music
 

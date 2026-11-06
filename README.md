@@ -112,6 +112,8 @@ Smashy defaults to a dark theme with muted accents. Settings include sound volum
 
 The background soundtrack starts after your first tap, click, or keypress at a quiet **8% volume**. The header **speaker** opens a compact mixer with **Music** and **Sound** rows: each has its own mute button and volume slider. The same controls are available in Settings. Music and effects start from your first completed tap or click; saved mute and volume choices are respected. The four supplied songs play in order—**Relaxed Pocket → Soft Pixel Play → Cozy Game Loop → Puzzle Pulse**—with **five seconds of silence between songs**, then loop back to the beginning. Music continues in menus and Settings and pauses when you leave the tab. Your music preferences are remembered in this browser.
 
+Big support drops get a little encouragement: **7–9 dropped pieces** play one randomly chosen **Wheeee**; **10 or more** play **Ooo-Smashy** instead. Matched pieces do not count toward the drop total. These supplied reward voices use the same **Sound** mute and volume controls as the other effects, while music stays independent.
+
 The complete playfield scales to the available screen. Compact layouts and a separate touch aiming card help keep your hand away from the board. If a board cannot fit readably, the game preserves it and asks for more room rather than cropping the launcher or shrinking the toys too far.
 
 Desktop Chrome and Edge are the primary play targets, with Firefox checks as well. Phone and tablet layouts support touch; broader physical-device testing is ongoing.
@@ -185,7 +187,7 @@ pnpm test:pc -- --full
 
 ## Art, sound, and notices
 
-Smashy has its own characters, logo, workshop artwork, authored puzzles, and animation. Sound effects are **original procedural sounds synthesized in the browser with Web Audio**, including count-aware cracks and debris for matches and drops. No audio download is needed for those effects. The separate four-song background soundtrack was supplied for Smashy and is bundled as browser-ready AAC playback copies.
+Smashy has its own characters, logo, workshop artwork, authored puzzles, and animation. Launch, rebound, count-aware cracks and debris are **original procedural sounds synthesized in the browser with Web Audio**. Those procedural effects need no audio download. The reward voice recordings were supplied for Smashy, as was the separate four-song soundtrack bundled as browser-ready AAC playback copies.
 
 The image at the top is promotional artwork; the gallery shows the running game. See [art and sound details](docs/ASSETS.md) for the asset inventory.
 

@@ -4,6 +4,12 @@ import {
   type BreakageOptions,
 } from "./breakage";
 export { breakageProfile, synthesizeBreakage } from "./breakage";
+import {
+  selectDropReward,
+  rewardPlaybackGain,
+  type DropReward,
+  type DropRewardClips,
+} from "./drop-rewards";
 
 export type SoundCue =
   | "fire"
@@ -25,7 +31,7 @@ interface SoundVoice {
   debris?: boolean;
 }
 
-/** Original, quiet procedural material cues. Sound never schedules gameplay. */
+/** Shared effects bus for synthesized cues and supplied reward voices. */
 export class SmashyAudio {
   private context: AudioContext | null = null;
   private master: GainNode | null = null;
@@ -40,6 +46,12 @@ export class SmashyAudio {
   private lastPlay = new Map<SoundCue, number>();
   private breakageCache = new Map<string, AudioBuffer>();
   private breakageSequence = 0;
+  private rewardBuffers = new Map<DropReward, AudioBuffer>();
+  private rewardLoad: Promise<void> | null = null;
+  private rewardEpoch = 0;
+  private rewardVoice: SoundVoice | null = null;
+
+  constructor(private rewardClips: DropRewardClips = {}) {}
 
   get available() {
     return !this.failed;
@@ -78,6 +90,7 @@ export class SmashyAudio {
       }
       if (this.context.state !== "running") await this.context.resume();
       this.blocked = false;
+      if (!this.muted && this.volume > 0) void this.preloadRewards();
       return this.context.state === "running";
     } catch (error) {
       const name = (error as { name?: string })?.name;
@@ -96,7 +109,90 @@ export class SmashyAudio {
     this.volume = Number.isFinite(volume)
       ? Math.max(0, Math.min(1, volume))
       : 0.35;
+    if (this.volume === 0) this.stopVoices();
     this.applyVolume();
+  }
+  private preloadRewards(): Promise<void> {
+    if (this.rewardLoad) return this.rewardLoad;
+    const context = this.context;
+    if (!context) return Promise.resolve();
+    this.rewardLoad = Promise.all(
+      Object.entries(this.rewardClips).map(async ([id, url]) => {
+        try {
+          const response = await fetch(url);
+          if (!response.ok) return;
+          const buffer = await context.decodeAudioData(
+            await response.arrayBuffer(),
+          );
+          if (this.context === context)
+            this.rewardBuffers.set(id as DropReward, buffer);
+        } catch {
+          // A missing optional reward never interrupts play or other effects.
+        }
+      }),
+    ).then(() => {});
+    return this.rewardLoad;
+  }
+  /** Counts detached supports only. Ten-plus takes priority over a Wheeee. */
+  playDropReward(dropped: number) {
+    const epoch = ++this.rewardEpoch;
+    const id = selectDropReward(dropped);
+    if (!id || !this.rewardClips[id] || this.muted || this.volume === 0) return;
+    const requested = performance.now();
+    const start = () => {
+      const context = this.context,
+        master = this.master;
+      const buffer = this.rewardBuffers.get(id);
+      if (
+        epoch !== this.rewardEpoch ||
+        !context ||
+        !master ||
+        !buffer ||
+        context.state !== "running" ||
+        this.muted ||
+        this.volume === 0 ||
+        this.failed
+      )
+        return;
+      const level = rewardPlaybackGain(buffer);
+      if (level === 0) return;
+      if (this.rewardVoice) {
+        try {
+          this.rewardVoice.oscillator.stop();
+        } catch {
+          /* already ended */
+        }
+        this.rewardVoice.gain.gain.setValueAtTime(0, context.currentTime);
+      }
+      this.makeRoom(context.currentTime);
+      const source = context.createBufferSource(),
+        gain = context.createGain();
+      source.buffer = buffer;
+      gain.gain.value = level;
+      source.connect(gain);
+      gain.connect(master);
+      const voice: SoundVoice = {
+        oscillator: source,
+        gain,
+        end: context.currentTime + buffer.duration,
+      };
+      this.rewardVoice = voice;
+      this.voices.push(voice);
+      this.activeSources.add(voice);
+      source.onended = () => {
+        this.activeSources.delete(voice);
+        if (this.rewardVoice === voice) this.rewardVoice = null;
+        source.disconnect();
+        gain.disconnect();
+      };
+      source.start();
+    };
+    if (this.rewardBuffers.has(id)) start();
+    else
+      void this.preloadRewards().then(() => {
+        // Never deliver an out-of-context cheer after a slow asset request.
+        if (performance.now() - requested <= 350) start();
+      });
   }
   private applyVolume() {
     if (this.context && this.master)
@@ -296,6 +392,8 @@ export class SmashyAudio {
     }
   }
   private stopVoices() {
+    this.rewardEpoch++;
+    this.rewardVoice = null;
     const now = this.context?.currentTime ?? 0;
     for (const voice of this.activeSources) {
       // Cancel future notes too: suspending context time alone would replay
@@ -330,5 +428,7 @@ export class SmashyAudio {
     this.master = null;
     this.voices = [];
     this.breakageCache.clear();
+    this.rewardBuffers.clear();
+    this.rewardLoad = null;
   }
 }

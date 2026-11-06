@@ -24,6 +24,7 @@ const scripts = [
   "audio-availability-check",
   "music-browser-check",
   "audio-flyout-browser-check",
+  "drop-reward-browser-check",
 ];
 if (process.argv.includes("--full")) scripts.push("modes-browser-check");
 const started = Date.now(),
