@@ -16,6 +16,7 @@ const scripts = [
   "descent-browser-check",
   "records-browser-check",
   "scores-ui-browser-check",
+  "home-puzzles-browser-check",
   "viewport-browser-check",
   "visual-check",
   "reliability-browser-check",

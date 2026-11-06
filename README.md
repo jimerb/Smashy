@@ -15,7 +15,7 @@ Line up a shot, connect a few friendly toys, and find the support that brings a 
 ## Quick start
 
 1. **Try Learn by smashing.** Three tiny boards introduce matching, support drops, and wall rebounds.
-2. **Choose Classic.** Relaxed is a comfortable place to start. Pick the Standard board layout for a desktop, or Compact for a smaller screen.
+2. **Choose Classic, then New Classic game.** Relaxed is a comfortable place to start. Pick the Standard board layout for a desktop, or Compact for a smaller screen. **Resume** continues the saved board and score; **New** starts a fresh attempt.
 3. **Aim at a matching pair and fire.** Three touching toys of the same type break apart.
 4. **Look above the obvious match.** Remove the few toys holding up the many, and watch the unsupported cluster fall.
 
@@ -62,6 +62,8 @@ A full meter is a warning. The board descends only when danger goes **over** its
 ### A bonus goal is not a shot limit
 
 Puzzles unlock when you **clear the board**, even if you use more shots than the bonus goal. Finishing farther below that goal earns a larger efficiency bonus. Every clear earns at least **+100 efficiency points**, plus the clear bonus.
+
+Grey padlocks on the puzzle shelf show puzzles you have not earned yet. Earned progress and your selected layout are remembered in this browser; Standard and Compact have separate shelves. Settings → **Allow Playing Locked Puzzles** is off by default. Turn it on to try a locked puzzle as **practice**. Practice can be saved and resumed, but never earns shelf unlocks—even if you later turn the setting off. Switch it off to return to your earned selection.
 
 **Retry same board** repeats the original layout and toy order. **New random board** generates a fresh Classic board at the same difficulty and layout size. Finished and zero-score games start their replacements directly; an unfinished game with a positive score asks before being replaced.
 

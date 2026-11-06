@@ -37,7 +37,7 @@ async function ready() {
 try {
   await p.goto(base);
   await p.locator("#profile").selectOption("compact");
-  await p.getByRole("button", { name: "Play Classic" }).click();
+  await p.getByRole("button", { name: "New Classic game" }).click();
   await ready();
   // Desktop shoots directly on the board. The separate touch card is displayed
   // on touch/portrait layouts and has its own input continuity coverage.

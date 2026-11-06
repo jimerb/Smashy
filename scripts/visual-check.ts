@@ -293,7 +293,7 @@ try {
   await page.goto(base);
   await sample(page, "Home primary action text", '[data-action="play"]');
   await sample(page, "Home secondary action text", '[data-action="lessons"]');
-  await page.getByRole("button", { name: "Play Classic" }).click();
+  await page.getByRole("button", { name: "New Classic game" }).click();
   await ready(page);
   await sample(page, "Score cream value", "#score");
   await sample(page, "Best ochre value", "#best");
@@ -383,7 +383,7 @@ try {
   phone.on("pageerror", (error) => errors.push(error.message));
   await phone.goto(base);
   await phone.locator("#profile").selectOption("compact");
-  await phone.getByRole("button", { name: "Play Classic" }).click();
+  await phone.getByRole("button", { name: "New Classic game" }).click();
   await ready(phone);
   await fit(phone, 24);
   await captions(phone, "Minimum Compact Standard 360 × 540");
@@ -455,7 +455,7 @@ try {
   await custom
     .getByRole("button", { name: "Use these rules", exact: true })
     .click();
-  await custom.getByRole("button", { name: "Play Custom" }).click();
+  await custom.getByRole("button", { name: "New Custom game" }).click();
   await ready(custom);
   await fit(custom, 24, 240);
   await captions(custom, "Narrow 240-unit Custom, Compact 360 × 540");

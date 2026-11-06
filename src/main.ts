@@ -1,6 +1,8 @@
 import "./style.css";
 import "./ui/help.css";
 import "./ui/records.css";
+import "./ui/puzzles.css";
+import "./ui/home.css";
 import { mountHelpDialog, type HelpDialogView } from "./ui/help";
 import workshopArt from "../public/art/ready/workshop-night-ready-v1.webp";
 import wordmarkArt from "../public/art/ready/smashy-wordmark-ready-v1.png";
@@ -37,6 +39,7 @@ import {
   validateProgress,
   isRunTerminal,
   advanceBoard,
+  earnedPuzzleCompletion,
   type RunProgress,
 } from "./progression";
 import {
@@ -68,6 +71,7 @@ const icons: Record<string, string> = {
   mute: '<path d="m11 4-6 5H2v6h3l6 5V4Zm5 5 5 6m0-6-5 6"/>',
   pause: '<path d="M8 5v14M16 5v14"/>',
   close: '<path d="m6 6 12 12M18 6 6 18"/>',
+  lock: '<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15" r="1"/>',
   gear: '<path d="M18.93 9.13L19.34 10.44L21.85 10.26L21.85 13.74L19.34 13.56L18.93 14.87L18.93 14.87L18.29 16.08L20.19 17.74L17.74 20.19L16.08 18.29L14.87 18.93L14.87 18.93L13.56 19.34L13.74 21.85L10.26 21.85L10.44 19.34L9.13 18.93L9.13 18.93L7.92 18.29L6.26 20.19L3.81 17.74L5.71 16.08L5.07 14.87L5.07 14.87L4.66 13.56L2.15 13.74L2.15 10.26L4.66 10.44L5.07 9.13L5.07 9.13L5.71 7.92L3.81 6.26L6.26 3.81L7.92 5.71L9.13 5.07L9.13 5.07L10.44 4.66L10.26 2.15L13.74 2.15L13.56 4.66L14.87 5.07L14.87 5.07L16.08 5.71L17.74 3.81L20.19 6.26L18.29 7.92L18.93 9.13Z"/><circle cx="12" cy="12" r="3.1"/>',
 };
 const svg = (name: string) =>
@@ -77,7 +81,7 @@ const iconButton = (action: string, label: string, icon: string) =>
 const commands = (home = false) =>
   `<div class="actions">${iconButton("records", "Personal bests", "trophy")}${iconButton("help", "How to play", "help")}${iconButton("sound", "Sound", "sound")}${iconButton(home ? "settings" : "pause", home ? "Settings" : "Pause", home ? "gear" : "pause")}</div>`;
 $("#app").innerHTML = `
-<section id="home"><header class="home-top"><span class="brand-small">smashy</span>${commands(true)}</header><main class="home-main"><div class="home-copy"><div class="eyebrow">A quiet night. One good shot.</div><h1 class="wordmark">smashy</h1><p>Line it up. Make a match.<br>Find the support that brings it all down.</p><div class="setup"><label>Difficulty<select id="difficulty"><option value="standard">Standard</option></select></label><label>Board layout<select id="profile"><option value="standard">Standard · desktop</option><option value="compact">Compact · smaller screens</option></select></label></div><p class="home-best" id="home-best"></p><button class="primary home-start" data-action="play">Play Classic <span aria-hidden="true">↗</span></button><button class="home-start quiet" data-action="resume-saved" id="resume-saved" hidden>Resume saved board</button><div class="home-secondary"><button data-action="lessons">Learn by smashing</button><button data-action="settings">Settings</button></div><p class="small muted">No timer. No account. Just one more shot.</p><p id="home-storage" class="saved-notice"></p></div><div class="home-art" aria-hidden="true"><div class="toy chip">••</div><div class="toy gum">••</div><div class="toy rivet">••</div><p class="art-caption">SMALL TOYS. BIG CHAIN REACTIONS.</p></div></main><footer class="home-foot"><span>v${appVersion} · Classic · Puzzles · Journey · Custom</span><span>Mouse to aim · Click to fire · Space to fire · Esc to pause</span></footer></section>
+<section id="home"><header class="home-top"><span class="brand-small">smashy</span>${commands(true)}</header><main class="home-main"><div class="home-identity"><div class="eyebrow">A quiet night. One good shot.</div><h1 class="wordmark">smashy</h1><p class="home-tagline">One good shot. A whole lot of smash.</p></div><div class="home-copy"><div class="setup"><label>Difficulty<select id="difficulty"><option value="standard">Standard</option></select></label><label>Board layout<select id="profile"><option value="standard">Standard · desktop</option><option value="compact">Compact · smaller screens</option></select></label></div><p class="home-best" id="home-best"></p><div class="home-actions"><button class="primary home-start" data-action="play">New Classic game</button><button class="home-start quiet" data-action="resume-saved" id="resume-saved" hidden>Resume Classic</button></div><p class="home-resume-summary" id="resume-summary" hidden></p><div class="home-secondary"><button data-action="lessons">Learn by smashing</button></div><p id="home-storage" class="saved-notice" hidden></p></div><div class="home-art" aria-hidden="true"><div class="toy chip">••</div><div class="toy gum">••</div><div class="toy rivet">••</div><p class="art-caption">SMALL TOYS. BIG CHAIN REACTIONS.</p></div></main><footer class="home-foot"><span>v${appVersion} · Classic · Puzzles · Journey · Custom</span><span>Mouse to aim · Click to fire · Space to fire · Esc to pause</span></footer></section>
 <section id="game" hidden aria-label="Smashy game"><div id="play-layout"><div class="stage-slot" id="stage"><div id="canvas-host"></div><span class="stage-label" id="next-caption" role="img" aria-label="Next toy">Next</span><span class="stage-label limit-caption" id="limit-caption">Limit</span><div class="input-surface" id="input" tabindex="0" role="application" aria-label="Aim with arrow keys, Shift for fine aim. Space fires. Escape pauses."></div><div class="touch-pad" id="touch-pad" aria-label="Drag to aim, release to fire"><span class="pad-caption">Slide to aim · release to fire</span></div><div class="announcement" id="announcement" hidden></div><div class="overlay" id="overlay" hidden><div class="overlay-card" id="overlay-card"></div></div></div><aside class="rail"><div class="rail-top"><span class="brand-small">smashy</span>${commands()}<div class="context run-label" id="run-label"></div></div><div class="hud"><div class="score"><span class="label">Score <span id="new-best" class="pill" hidden>New best</span></span><span class="score-value" id="score">0</span></div><div><span class="label">Best</span><span class="stat-value best-value" id="best">—</span></div><div><span class="label">Shots <span id="target-hint"></span></span><span class="stat-value" id="shots">0</span></div><div class="danger-block"><div class="danger-title"><span>Danger</span><span id="danger-value">0 / 8</span></div><div class="danger-meter" id="danger-meter"></div><div class="danger-note" id="danger-note"></div></div></div><div class="rail-bottom"><span id="assist-label" class="pill" hidden>Assisted</span><div class="status-line" id="status-line"></div><div class="rail-hint">Aim <span class="angle" id="angle">90°</span><br><span id="input-hint">Move to aim · Click to fire<br>Arrows + Shift for fine aim</span></div><div class="bottom-controls"><button data-action="guide" id="guide-button">Guide off</button><button data-action="undo" id="undo-button" disabled>Undo</button><button data-action="fire" id="fire-button">Fire</button></div><div class="cancel-strip" id="cancel-strip">Release here to cancel</div><div class="saved-notice" id="storage-note"></div></div></aside></div></section>
 <dialog id="dialog"><div class="dialog-shell"><header class="dialog-head"><h2 id="dialog-title"></h2>${iconButton("close-dialog", "Close", "close")}</header><div class="dialog-body" id="dialog-body"></div><footer class="dialog-foot" id="dialog-foot"></footer></div></dialog><div class="sr-only" id="live" role="status" aria-live="polite"></div>`;
 
@@ -153,6 +157,7 @@ $("#game .actions").insertAdjacentHTML(
 );
 interface Settings {
   undoPenalty: boolean;
+  allowLockedPuzzles: boolean;
   muted: boolean;
   volume: number;
   reduced: boolean;
@@ -165,6 +170,7 @@ interface Settings {
 }
 const defaults: Settings = {
   undoPenalty: true,
+  allowLockedPuzzles: false,
   muted: false,
   volume: 0.35,
   reduced: matchMedia("(prefers-reduced-motion: reduce)").matches,
@@ -181,6 +187,7 @@ try {
   if (s && typeof s === "object") {
     for (const k of [
       "undoPenalty",
+      "allowLockedPuzzles",
       "muted",
       "reduced",
       "reducedDecoration",
@@ -262,6 +269,9 @@ function homeProgress() {
     selectedMode,
     $<HTMLSelectElement>("#difficulty").value as Difficulty,
     selectedPuzzle,
+    selectedMode === "puzzles" &&
+      selectedPuzzle >
+        completed[$<HTMLSelectElement>("#profile").value as Profile],
   );
   if (selectedMode === "custom") p.configId = customIdentity();
   if (
@@ -383,7 +393,10 @@ const category = (): ScoreCategory => ({
     started && game
       ? game.config.profile
       : ($<HTMLSelectElement>("#profile").value as Profile),
-  assisted: started && game ? game.assisted : settings.guide,
+  assisted:
+    started && game
+      ? game.assisted
+      : settings.guide || !!homeProgress().puzzlePractice,
   configId: started ? progress.configId : homeProgress().configId,
 });
 const context = () => {
@@ -395,7 +408,7 @@ const context = () => {
   const config = started && game ? game.config : customValues;
   const extra =
     c.mode === "puzzles"
-      ? ` · Starting puzzle ${(started ? progress.startPuzzleIndex : selectedPuzzle) + 1}`
+      ? ` · Starting puzzle ${(started ? progress.startPuzzleIndex : selectedPuzzle) + 1}${(started ? progress.puzzlePractice : homeProgress().puzzlePractice) ? " · Practice: no shelf unlocks" : ""}`
       : c.mode === "custom"
         ? ` · ${config.columns}×${config.rows}, ${config.startRows} starting rows, ${config.types} types, ${config.anchors} anchors, danger ${config.dangerThreshold}, target ${config.target}`
         : "";
@@ -439,6 +452,7 @@ function storageFeedback(r: { durable: boolean; reason?: string }) {
     $("#storage-note").textContent = storageNotice;
     $("#home-storage").textContent = storageNotice;
   }
+  $("#home-storage").hidden = !storageNotice;
   if (started && game) updateHUD();
 }
 let writes = Promise.resolve();
@@ -456,9 +470,7 @@ function save() {
     });
 }
 function puzzleCompletion(cp: Checkpoint) {
-  return cp.progress?.mode === "puzzles" && cp.game.status === "cleared"
-    ? { [cp.game.config.profile]: cp.progress.puzzleIndex + 1 }
-    : undefined;
+  return cp.progress ? earnedPuzzleCompletion(cp.game, cp.progress) : undefined;
 }
 function showStatus(text: string, ms = 5000) {
   statusText = text;
@@ -467,14 +479,16 @@ function showStatus(text: string, ms = 5000) {
   $("#live").textContent = text;
 }
 function updateHome() {
-  if (selectedMode === "puzzles")
+  if (selectedMode === "puzzles" && !settings.allowLockedPuzzles)
     selectedPuzzle = Math.min(
       selectedPuzzle,
       completed[$<HTMLSelectElement>("#profile").value as Profile],
       49,
     );
   const modeTitle = selectedMode[0].toUpperCase() + selectedMode.slice(1);
-  $('[data-action="play"]').textContent = `Play ${modeTitle} ↗`;
+  $('[data-action="play"]').textContent = homeProgress().puzzlePractice
+    ? `Practice puzzle ${selectedPuzzle + 1}`
+    : `New ${modeTitle} game`;
   document
     .querySelectorAll<HTMLButtonElement>("[data-mode]")
     .forEach((b) =>
@@ -484,24 +498,72 @@ function updateHome() {
     selectedMode === "puzzles" || selectedMode === "custom";
   $("#mode-description").textContent =
     selectedMode === "journey"
-      ? "Climb through the difficulties. Keep your score; Expert repeats until you run out of room."
+      ? "Keep your score as the difficulty climbs."
       : selectedMode === "puzzles"
-        ? "Clear each puzzle to unlock the next. The bonus goal rewards fewer shots; it is not a limit."
+        ? settings.allowLockedPuzzles
+          ? "Locked puzzles are available for practice. Only earned clears unlock the shelf."
+          : "Clear a puzzle to unlock the next. Padlocks mark puzzles not yet earned."
         : selectedMode === "custom"
-          ? "Your dimensions, your pressure. Custom records stay separate."
+          ? "Set your own board and pressure."
           : "No clock. Every shot is a chance to make room.";
   $("#mode-config").hidden =
     selectedMode !== "puzzles" && selectedMode !== "custom";
   $("#mode-config").textContent =
     selectedMode === "puzzles"
-      ? `Puzzle ${selectedPuzzle + 1} · ${PUZZLES[selectedPuzzle]?.title ?? "Choose a puzzle"}`
+      ? `${selectedPuzzle > completed[$<HTMLSelectElement>("#profile").value as Profile] ? "Practice puzzle" : "Puzzle"} ${selectedPuzzle + 1} · ${PUZZLES[selectedPuzzle]?.title ?? "Choose a puzzle"}`
       : `Configure · ${customValues.columns} columns · ${customValues.types} types`;
   const best = store.getBest(category());
   $("#home-best").textContent =
-    `Best ${best === null ? "—" : best.toLocaleString()} · ${context()}`;
-  $("#resume-saved").hidden = !store.state().active;
+    `Best ${best === null ? "—" : best.toLocaleString()} · ${category().assisted ? "Assisted" : "Unassisted"}`;
+  $("#home-best").title = context();
+  const saved = store.state().active?.checkpoint;
+  const resumeButton = $("#resume-saved");
+  resumeButton.hidden = !saved;
+  $("#home").classList.toggle("home-has-save", !!saved);
+  const finished =
+    saved &&
+    saved.game.status !== "ready" &&
+    (!saved.progress || isRunTerminal(saved.game, saved.progress));
+  const savedMode =
+    saved?.progress?.mode ?? (saved?.lesson !== null ? "tutorial" : "classic");
+  const savedName =
+    savedMode === "puzzles"
+      ? `${saved?.progress?.puzzlePractice ? "Practice puzzle" : "Puzzle"} ${(saved?.progress?.puzzleIndex ?? 0) + 1}`
+      : savedMode === "tutorial"
+        ? "lesson"
+        : savedMode[0].toUpperCase() + savedMode.slice(1);
+  resumeButton.textContent = finished
+    ? "View last result"
+    : `Resume ${savedName}`;
+  resumeButton.title = finished
+    ? "View the saved result. This does not start another game."
+    : "Continue the saved board, score and toy order.";
+  resumeButton.classList.toggle("primary", !!saved && !finished);
+  $('[data-action="play"]').classList.toggle("primary", !saved || !!finished);
+  $('[data-action="play"]').title =
+    "Start a fresh game from the beginning. Resume continues your saved game instead.";
+  $("#resume-summary").hidden = !saved;
+  $("#resume-summary").textContent = saved
+    ? `Saved ${savedName} · ${saved.game.score.toLocaleString()} points · ${saved.game.shots} shots`
+    : "";
+  try {
+    localStorage.setItem(
+      "smashy.home.v1",
+      JSON.stringify({
+        mode: selectedMode,
+        profile: $<HTMLSelectElement>("#profile").value,
+        difficulty: $<HTMLSelectElement>("#difficulty").value,
+        puzzle: selectedPuzzle,
+      }),
+    );
+  } catch {}
 }
 function selectMode(mode: PlayMode) {
+  if (mode === "puzzles" && selectedMode !== "puzzles")
+    selectedPuzzle = Math.min(
+      completed[$<HTMLSelectElement>("#profile").value as Profile],
+      49,
+    );
   selectedMode = mode;
   if (mode === "puzzles")
     $<HTMLSelectElement>("#difficulty").value = "standard";
@@ -514,13 +576,24 @@ async function showPuzzles() {
   await writes;
   storageFeedback(await store.load());
   const profile = $<HTMLSelectElement>("#profile").value as Profile;
+  const earned = completed[profile];
   openDialog(
     "The puzzle shelf",
-    `<p>${completed[profile]} of 50 completed · ${profile === "compact" ? "Compact" : "Standard"} layout. Revisit any completed puzzle. Each selected starting point has its own record category.</p>${storageNotice ? '<p class="saved-notice">Puzzle progress is temporary in this session because storage is unavailable.</p>' : ""}<div class="puzzle-grid">${PUZZLES.map((p, i) => `<button data-puzzle="${i}" ${i > completed[profile] ? "disabled" : ""} aria-label="Puzzle ${i + 1}: ${escapeHTML(p.title)}${i < completed[profile] ? " completed" : ""}"><span>${i < completed[profile] ? "✓ " : ""}${i + 1}</span><small>${escapeHTML(p.title)}</small></button>`).join("")}</div>`,
+    `<p class="shelf-progress"><strong>${earned} / 50 completed</strong> · ${profile === "compact" ? "Compact" : "Standard"}</p><p class="shelf-note">Clear each puzzle to unlock the next. Your earned progress is saved in this browser.</p>${settings.allowLockedPuzzles ? '<p class="shelf-practice">Practice access is on. Padlocked puzzles are playable, but do not earn unlocks.</p>' : '<p class="shelf-note">Grey padlocks mean locked. Settings can allow locked puzzles for practice.</p>'}${storageNotice ? '<p class="saved-notice">Puzzle progress is temporary in this session because storage is unavailable.</p>' : ""}<div class="puzzle-grid">${PUZZLES.map(
+      (p, i) => {
+        const locked = i > earned;
+        return `<button class="puzzle-tile ${locked ? "is-locked" : i < earned ? "is-complete" : "is-next"}" data-puzzle="${i}" ${locked && !settings.allowLockedPuzzles ? "disabled" : ""} aria-label="Puzzle ${i + 1}: ${escapeHTML(p.title)}${locked ? (settings.allowLockedPuzzles ? ". Locked. Practice available" : ". Locked. Clear the previous puzzle first") : i < earned ? ". Completed" : ". Ready to play"}">${locked ? `<span class="puzzle-lock" aria-hidden="true">${svg("lock")}</span>` : i < earned ? '<span class="puzzle-check" aria-hidden="true">✓</span>' : '<span class="puzzle-next" aria-hidden="true">Next</span>'}<span class="puzzle-number">${i + 1}</span><small>${escapeHTML(p.title)}</small></button>`;
+      },
+    ).join("")}</div>`,
   );
   document.querySelectorAll<HTMLButtonElement>("[data-puzzle]").forEach(
     (b) =>
       (b.onclick = () => {
+        if (
+          +b.dataset.puzzle! > completed[profile] &&
+          !settings.allowLockedPuzzles
+        )
+          return;
         selectedPuzzle = +b.dataset.puzzle!;
         closeDialog();
         updateHome();
@@ -593,10 +666,18 @@ async function newRun(
     await unlockAudio();
     await ensureRenderer();
     await writes;
+    storageFeedback(await store.load());
     const profile =
       retry && initial
         ? initial.config.profile
         : ($<HTMLSelectElement>("#profile").value as Profile);
+    if (
+      !retry &&
+      which === null &&
+      selectedMode === "puzzles" &&
+      !settings.allowLockedPuzzles
+    )
+      selectedPuzzle = Math.min(selectedPuzzle, completed[profile], 49);
     const nextProgress =
       retry && initial
         ? structuredClone(initialProgress)
@@ -604,6 +685,9 @@ async function newRun(
             which !== null ? "tutorial" : selectedMode,
             $<HTMLSelectElement>("#difficulty").value as Difficulty,
             selectedPuzzle,
+            which === null &&
+              selectedMode === "puzzles" &&
+              selectedPuzzle > completed[profile],
           );
     if (which !== null) {
       nextProgress.startDifficulty = "standard";
@@ -640,7 +724,7 @@ async function newRun(
               })
             : lessonGame(which, profile);
     const nextGuide = which !== null || settings.guide;
-    nextGame.assisted = nextGuide;
+    nextGame.assisted = nextGuide || !!nextProgress.puzzlePractice;
     const id = randomId();
     const cp: Checkpoint = {
       v: 1,
@@ -799,7 +883,11 @@ function setAngle(value: number) {
 function updateHUD() {
   if (!game) return;
   $("#mode-title").textContent =
-    (progress.mode === "tutorial" ? "Learn" : progress.mode) +
+    (progress.mode === "tutorial"
+      ? "Learn"
+      : progress.puzzlePractice
+        ? "Puzzle practice"
+        : progress.mode) +
     " / " +
     game.config.difficulty;
   $("#score").textContent = game.score.toLocaleString();
@@ -832,8 +920,11 @@ function updateHUD() {
   $("#mobile-context").textContent =
     (storageNotice
       ? "Not saving scores"
-      : (lesson !== null ? `Lesson ${lesson + 1}` : progress.mode) +
-        ` · ${game.config.difficulty}`) +
+      : (lesson !== null
+          ? `Lesson ${lesson + 1}`
+          : progress.puzzlePractice
+            ? "Practice"
+            : progress.mode) + ` · ${game.config.difficulty}`) +
     `
 ${game.config.profile} layout · ${game.assisted ? "Assisted" : "Unassisted"}`;
   $("#assist-label").hidden = !game.assisted;
@@ -852,7 +943,8 @@ ${game.config.profile} layout · ${game.assisted ? "Assisted" : "Unassisted"}`;
     progress.mode === "tutorial"
       ? "Lesson " + ((lesson ?? 0) + 1)
       : progress.mode === "puzzles"
-        ? "Puzzle " + (progress.puzzleIndex + 1)
+        ? (progress.puzzlePractice ? "Practice " : "Puzzle ") +
+          (progress.puzzleIndex + 1)
         : progress.mode[0].toUpperCase() + progress.mode.slice(1);
   $("#run-label").textContent = portraitHeader
     ? runName +
@@ -863,7 +955,7 @@ ${game.config.profile} layout · ${game.assisted ? "Assisted" : "Unassisted"}`;
       " · " +
       assistedLabel
     : progress.mode === "puzzles"
-      ? "Puzzle " +
+      ? (progress.puzzlePractice ? "Practice puzzle " : "Puzzle ") +
         (progress.puzzleIndex + 1) +
         ": " +
         PUZZLES[progress.puzzleIndex].title +
@@ -1169,8 +1261,8 @@ function showOverlay() {
     !isRunTerminal(game, progress)
   ) {
     if (progress.mode === "puzzles")
-      resultGuidance = `Clear unlocks the next puzzle.<br>${game.shots} shots · bonus goal ${game.config.target}.<br>Efficiency bonus: at least +100.`;
-    html = `<div class="eyebrow">${progress.mode === "puzzles" ? `Puzzle ${progress.puzzleIndex + 1} / 50` : `Journey · Board ${progress.journeyStage + 1}`}</div><h2>${progress.mode === "puzzles" ? "Puzzle cleared." : "Room to keep going."}</h2>${resultScore}<p>${progress.mode === "puzzles" ? escapeHTML(PUZZLES[progress.puzzleIndex].title) : "Board cleared. The next difficulty is waiting."}<br>${goalResult}</p>${progress.mode === "puzzles" ? '<p class="small">Clearing unlocks the next puzzle. The bonus goal affects points, not progression; the efficiency bonus is always at least +100.</p>' : ""}<button class="primary" data-action="next-board">${progress.mode === "puzzles" ? "Next puzzle" : "Next board"}</button><button data-action="retry-confirm">Restart this run</button><button class="quiet" data-action="home">Home</button>`;
+      resultGuidance = `${progress.puzzlePractice ? "Practice: no shelf unlocks." : "Clear unlocks the next puzzle."}<br>${game.shots} shots · bonus goal ${game.config.target}.<br>Efficiency bonus: at least +100.`;
+    html = `<div class="eyebrow">${progress.mode === "puzzles" ? `${progress.puzzlePractice ? "Practice puzzle" : "Puzzle"} ${progress.puzzleIndex + 1} / 50` : `Journey · Board ${progress.journeyStage + 1}`}</div><h2>${progress.mode === "puzzles" ? "Puzzle cleared." : "Room to keep going."}</h2>${resultScore}<p>${progress.mode === "puzzles" ? escapeHTML(PUZZLES[progress.puzzleIndex].title) : "Board cleared. The next difficulty is waiting."}<br>${goalResult}</p>${progress.mode === "puzzles" ? `<p class="small">${progress.puzzlePractice ? "Practice does not change your earned puzzle unlocks." : "Clearing unlocks the next puzzle."} The bonus goal affects points, not progression; the efficiency bonus is always at least +100.</p>` : ""}<button class="primary" data-action="next-board">${progress.mode === "puzzles" ? (progress.puzzlePractice ? "Next practice puzzle" : "Next puzzle") : "Next board"}</button><button data-action="retry-confirm">Restart this run</button><button class="quiet" data-action="home">Home</button>`;
   } else if (terminal && !stale) {
     if (progress.mode === "classic")
       resultGuidance =
@@ -1332,8 +1424,9 @@ async function showRecords() {
 }
 function recordLabel(c: ScoreCategory) {
   let extra = "";
-  const puzzle = c.configId.match(/^puzzles-start-(\d+)-v\d+$/);
-  if (puzzle) extra = ` · Starting puzzle ${+puzzle[1] + 1}`;
+  const puzzle = c.configId.match(/^puzzles-start-(\d+)-v\d+(?:-practice)?$/);
+  if (puzzle)
+    extra = ` · Starting puzzle ${+puzzle[1] + 1}${c.configId.endsWith("-practice") ? " · Practice" : ""}`;
   const cfg = c.configId.match(
     /^custom-v1-(\d+)-(\d+)-(\d+)-(\d+)-(\d+)-(\d+)-(\d+)$/,
   );
@@ -1358,7 +1451,7 @@ async function retrySaving() {
 function showSettings() {
   openDialog(
     "Make yourself comfortable",
-    `<label class="setting-row"><span>Sound effects<small>Soft taps, clicks and crumbling sounds.</small></span><input id="setting-muted" type="checkbox" ${!settings.muted ? "checked" : ""}></label><label class="setting-row"><span>Effects volume</span><input id="setting-volume" type="range" min="0" max="1" step="0.05" value="${settings.volume}"></label><label class="setting-row"><span>Reduced motion<small>Less movement. Same rules and score.</small></span><input id="setting-reduced" type="checkbox" ${settings.reduced ? "checked" : ""}></label><label class="setting-row"><span>Simple backdrop<small>Remove workshop props and frame texture. Keep the toys, controls and motion.</small></span><input id="setting-decoration" type="checkbox" ${settings.reducedDecoration ? "checked" : ""}></label><label class="setting-row"><span>Full path guide<small>Marks an active continuing run Assisted permanently. After a finished run, applies to your next attempt.</small></span><input id="setting-guide" type="checkbox" ${(started ? guide : settings.guide) ? "checked" : ""}></label><label class="setting-row"><span>500-point Undo penalty<small>On by default. Undo removes the last shot’s points, then costs 500 pre-shot points. Turn off for free Undo.</small></span><input id="setting-undo-penalty" type="checkbox" ${settings.undoPenalty ? "checked" : ""}></label><label class="setting-row"><span>Separate Fire button<small>Aiming touches never fire on release.</small></span><input id="setting-input" type="checkbox" ${settings.input === "fire" ? "checked" : ""}></label><label class="setting-row"><span>Color intensity</span><input id="setting-intensity" type="range" min="0.7" max="1" step="0.05" value="${settings.intensity}"></label><label class="setting-row"><span>Shape marks<small>Extra identity marks and stronger outlines.</small></span><input id="setting-glyphs" type="checkbox" ${settings.glyphs ? "checked" : ""}></label><label class="setting-row"><span>Board brightness</span><input id="setting-brightness" type="range" min="0.75" max="1" step="0.05" value="${settings.brightness}"></label><p class="small muted">Camera shake is off. There is no background music track. Presentation settings keep the rules unchanged. The Undo penalty setting controls whether each successful Undo costs 500 points.</p>`,
+    `<label class="setting-row"><span>Sound effects<small>Soft taps, clicks and crumbling sounds.</small></span><input id="setting-muted" type="checkbox" ${!settings.muted ? "checked" : ""}></label><label class="setting-row"><span>Effects volume</span><input id="setting-volume" type="range" min="0" max="1" step="0.05" value="${settings.volume}"></label><label class="setting-row"><span>Reduced motion<small>Less movement. Same rules and score.</small></span><input id="setting-reduced" type="checkbox" ${settings.reduced ? "checked" : ""}></label><label class="setting-row"><span>Simple backdrop<small>Remove workshop props and frame texture. Keep the toys, controls and motion.</small></span><input id="setting-decoration" type="checkbox" ${settings.reducedDecoration ? "checked" : ""}></label><label class="setting-row"><span>Full path guide<small>Marks an active continuing run Assisted permanently. After a finished run, applies to your next attempt.</small></span><input id="setting-guide" type="checkbox" ${(started ? guide : settings.guide) ? "checked" : ""}></label><label class="setting-row"><span>500-point Undo penalty<small>On by default. Undo removes the last shot’s points, then costs 500 pre-shot points. Turn off for free Undo.</small></span><input id="setting-undo-penalty" type="checkbox" ${settings.undoPenalty ? "checked" : ""}></label><label class="setting-row"><span>Allow Playing Locked Puzzles<small>Try locked puzzles as practice. Practice never earns shelf unlocks; earned progress stays saved.</small></span><input id="setting-locked-puzzles" type="checkbox" ${settings.allowLockedPuzzles ? "checked" : ""}></label><label class="setting-row"><span>Separate Fire button<small>Aiming touches never fire on release.</small></span><input id="setting-input" type="checkbox" ${settings.input === "fire" ? "checked" : ""}></label><label class="setting-row"><span>Color intensity</span><input id="setting-intensity" type="range" min="0.7" max="1" step="0.05" value="${settings.intensity}"></label><label class="setting-row"><span>Shape marks<small>Extra identity marks and stronger outlines.</small></span><input id="setting-glyphs" type="checkbox" ${settings.glyphs ? "checked" : ""}></label><label class="setting-row"><span>Board brightness</span><input id="setting-brightness" type="range" min="0.75" max="1" step="0.05" value="${settings.brightness}"></label><p class="small muted">Camera shake is off. There is no background music track. Presentation settings keep the rules unchanged. The Undo penalty setting controls whether each successful Undo costs 500 points. Locked-puzzle access permits practice without earning unlocks.</p>`,
   );
   $<HTMLInputElement>("#setting-muted").onchange = (e) => {
     settings.muted = !(e.target as HTMLInputElement).checked;
@@ -1390,6 +1483,11 @@ function showSettings() {
     settings.undoPenalty = (e.target as HTMLInputElement).checked;
     applySettings();
     updateHUD();
+  };
+  $<HTMLInputElement>("#setting-locked-puzzles").onchange = (e) => {
+    settings.allowLockedPuzzles = (e.target as HTMLInputElement).checked;
+    applySettings();
+    updateHome();
   };
   $<HTMLInputElement>("#setting-input").onchange = (e) => {
     settings.input = (e.target as HTMLInputElement).checked
@@ -2087,7 +2185,35 @@ async function boot() {
   syncViewportVariables();
   const r = await store.load();
   storageFeedback(r);
-  if (innerWidth < 600) $<HTMLSelectElement>("#profile").value = "compact";
+  let preferred: Record<string, unknown> = {};
+  try {
+    const value = JSON.parse(localStorage.getItem("smashy.home.v1") || "null");
+    if (value && typeof value === "object" && !Array.isArray(value))
+      preferred = value;
+  } catch {}
+  const saved = store.state().active?.checkpoint;
+  const profile = ["standard", "compact"].includes(String(preferred.profile))
+    ? (preferred.profile as Profile)
+    : (saved?.game.config.profile ??
+      (innerWidth < 600 ? "compact" : "standard"));
+  $<HTMLSelectElement>("#profile").value = profile;
+  const mode = preferred.mode ?? saved?.progress?.mode;
+  if (["classic", "puzzles", "journey", "custom"].includes(String(mode)))
+    selectedMode = mode as PlayMode;
+  if (
+    ["gentle", "relaxed", "standard", "tricky", "expert"].includes(
+      String(preferred.difficulty),
+    )
+  )
+    $<HTMLSelectElement>("#difficulty").value = String(preferred.difficulty);
+  if (selectedMode === "puzzles")
+    $<HTMLSelectElement>("#difficulty").value = "standard";
+  selectedPuzzle =
+    Number.isInteger(preferred.puzzle) &&
+    Number(preferred.puzzle) >= 0 &&
+    Number(preferred.puzzle) < 50
+      ? Number(preferred.puzzle)
+      : Math.min(completed[profile], 49);
   updateHome();
 }
 void boot();

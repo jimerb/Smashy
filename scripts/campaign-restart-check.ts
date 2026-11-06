@@ -90,7 +90,7 @@ try {
       else await page.locator("#difficulty").selectOption("gentle");
       await page
         .getByRole("button", {
-          name: mode === "puzzles" ? "Play Puzzles" : "Play Journey",
+          name: mode === "puzzles" ? "New Puzzles game" : "New Journey game",
         })
         .click();
       await ready(page);
@@ -143,7 +143,7 @@ try {
         }, tiny);
         await page.reload();
         await page
-          .getByRole("button", { name: "Resume saved board", exact: true })
+          .locator('[data-action="resume-saved"]')
           .click();
         await page.locator("#game").waitFor({ state: "visible" });
         await page.getByRole("button", { name: "Resume", exact: true }).click();

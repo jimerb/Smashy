@@ -15,7 +15,7 @@ page.on("pageerror", (e) => errors.push(e.message));
 const checks: string[] = [];
 try {
   await page.goto(base);
-  await page.getByRole("button", { name: "Play Classic" }).click();
+  await page.getByRole("button", { name: "New Classic game" }).click();
   await page.waitForFunction(
     () =>
       !(document.querySelector("#game") as HTMLElement).hidden &&

@@ -23,7 +23,7 @@ try {
     p.setDefaultTimeout(10000);
     p.on("pageerror", (e) => errors.push(e.message));
     await p.goto(url);
-    await p.getByRole("button", { name: "Play Classic" }).click();
+    await p.getByRole("button", { name: "New Classic game" }).click();
     await p.waitForFunction(
       () =>
         !(document.querySelector("#game") as HTMLElement).hidden &&

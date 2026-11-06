@@ -14,7 +14,7 @@ try {
   noGPU.setDefaultTimeout(10000);
   noGPU.on("pageerror", (e) => errors.push(e.message));
   await noGPU.goto(base);
-  await noGPU.getByRole("button", { name: "Play Classic" }).click();
+  await noGPU.getByRole("button", { name: "New Classic game" }).click();
   await noGPU.locator("#dialog").waitFor({ state: "visible" });
   assert.match(
     await noGPU.locator("#dialog-body").innerText(),
@@ -37,7 +37,7 @@ try {
   await p.goto(base);
   await p.locator('[data-mode="puzzles"]').click();
   await p.locator('[data-puzzle="0"]').click();
-  await p.getByRole("button", { name: "Play Puzzles" }).click();
+  await p.getByRole("button", { name: "New Puzzles game" }).click();
   await p.waitForFunction(
     () =>
       !(document.querySelector("#game") as HTMLElement).hidden &&
@@ -65,7 +65,7 @@ try {
   await game.goto(base);
   await game.locator("#difficulty").selectOption("expert");
   const launchStart = Date.now();
-  await game.getByRole("button", { name: "Play Classic" }).click();
+  await game.getByRole("button", { name: "New Classic game" }).click();
   await game.waitForFunction(
     () =>
       !(document.querySelector("#game") as HTMLElement).hidden &&
@@ -97,7 +97,7 @@ try {
   await game
     .getByRole("button", { name: "Use these rules", exact: true })
     .click();
-  await game.getByRole("button", { name: "Play Custom" }).click();
+  await game.getByRole("button", { name: "New Custom game" }).click();
   await game.waitForFunction(
     () =>
       !(document.querySelector("#game") as HTMLElement).hidden &&

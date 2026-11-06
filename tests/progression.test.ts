@@ -16,7 +16,48 @@ import {
   journeyDifficulty,
   modeContext,
   validateProgress,
+  earnedPuzzleCompletion,
 } from "../src/progression";
+
+test("locked-puzzle practice survives advancement and reload without earning shelf progress", () => {
+  const practice = createProgress("puzzles", "standard", 7, true);
+  assert(validateProgress(practice));
+  assert(practice.configId.endsWith("-practice"));
+  assert.equal(earnedPuzzleCompletion(cleared(), practice), undefined);
+  const next = advanceBoard(cleared(), practice, 39);
+  const restored = JSON.parse(JSON.stringify(next.progress));
+  assert(validateProgress(restored));
+  assert.equal(restored.puzzlePractice, true);
+  assert.equal(restored.puzzleIndex, 8);
+  assert.equal(earnedPuzzleCompletion(cleared(), restored), undefined);
+  assert.equal(
+    earnedPuzzleCompletion(cleared(), createProgress("puzzles", "standard"))
+      ?.standard,
+    1,
+  );
+  assert.equal(
+    earnedPuzzleCompletion(
+      cleared("standard", "compact"),
+      createProgress("puzzles", "standard", 1),
+    )?.compact,
+    2,
+  );
+});
+
+test("practice flag is optional for existing saves and rejected for non-puzzle runs", () => {
+  assert(validateProgress(createProgress("puzzles", "standard")));
+  assert.throws(() => createProgress("classic", "standard", 0, true));
+  const practice = createProgress("puzzles", "standard", 3, true);
+  assert.equal(
+    validateProgress({ ...practice, puzzlePractice: "true" }),
+    false,
+  );
+  assert.equal(earnedPuzzleCompletion(createGame(), practice), undefined);
+  assert.equal(
+    earnedPuzzleCompletion(cleared(), createProgress("classic", "standard")),
+    undefined,
+  );
+});
 
 function cleared(
   difficulty: Difficulty = "standard",

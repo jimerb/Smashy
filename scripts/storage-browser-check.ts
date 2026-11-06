@@ -130,7 +130,7 @@ try {
       await b.goto(base);
       // Both Home screens cached an empty origin before A starts its attempt.
       await a.bringToFront();
-      await a.getByRole("button", { name: "Play Classic" }).click();
+      await a.getByRole("button", { name: "New Classic game" }).click();
       await waitReady(a);
       // Explicit valid scored-checkpoint fixture: B's Home remains cached empty.
       // The resolved match leaves a separate ceiling pair, so play is not over.
@@ -186,7 +186,7 @@ try {
       );
       const before = await envelope(a);
       await b.bringToFront();
-      await b.getByRole("button", { name: "Play Classic" }).click();
+      await b.getByRole("button", { name: "New Classic game" }).click();
       await b
         .getByRole("heading", { name: "Start a new board?", exact: true })
         .waitFor();
@@ -212,13 +212,13 @@ try {
       const context = await newContext();
       const a = await context.newPage();
       await a.goto(base);
-      await a.getByRole("button", { name: "Play Classic" }).click();
+      await a.getByRole("button", { name: "New Classic game" }).click();
       await waitReady(a);
       const original = await envelope(a);
       const b = await context.newPage();
       await b.goto(base);
       await b
-        .getByRole("button", { name: "Resume saved board", exact: true })
+        .locator('[data-action="resume-saved"]')
         .click();
       await resumePaused(b);
       await shoot(b);
@@ -280,7 +280,7 @@ try {
       const context = await newContext(),
         page = await context.newPage();
       await page.goto(base);
-      await page.getByRole("button", { name: "Play Classic" }).click();
+      await page.getByRole("button", { name: "New Classic game" }).click();
       await waitReady(page);
       await shoot(page);
       await page.waitForFunction(
@@ -328,7 +328,7 @@ try {
       const context = await newContext(),
         page = await context.newPage();
       await page.goto(base);
-      await page.getByRole("button", { name: "Play Classic" }).click();
+      await page.getByRole("button", { name: "New Classic game" }).click();
       await waitReady(page);
       const fixture = lessonGame(0, "standard");
       fixture.assisted = false;
@@ -364,7 +364,7 @@ try {
       }, fixture);
       await page.reload();
       await page
-        .getByRole("button", { name: "Resume saved board", exact: true })
+        .locator('[data-action="resume-saved"]')
         .click();
       await resumePaused(page);
       await shoot(page);
@@ -423,7 +423,7 @@ try {
         page = await context.newPage();
       await page.goto(base);
       assert.equal(await page.evaluate(() => typeof indexedDB), "undefined");
-      await page.getByRole("button", { name: "Play Classic" }).click();
+      await page.getByRole("button", { name: "New Classic game" }).click();
       await waitReady(page);
       await shoot(page);
       await page.waitForFunction(

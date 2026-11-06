@@ -101,7 +101,7 @@ async function assertFit(p: Page, fit: boolean) {
 }
 try {
   await page.goto(base);
-  await page.getByRole("button", { name: "Play Classic" }).click();
+  await page.getByRole("button", { name: "New Classic game" }).click();
   await waitReady();
   await assertFit(page, true);
   assert.equal(await page.locator("canvas").count(), 1);
@@ -226,7 +226,7 @@ try {
   checks.push(
     "Home records follow selected layout rather than previous lesson",
   );
-  await page.getByRole("button", { name: "Play Classic" }).click();
+  await page.getByRole("button", { name: "New Classic game" }).click();
   await waitReady();
   await page.locator("#input").focus();
   await page.keyboard.press("Space");
@@ -257,7 +257,7 @@ try {
   });
   await page.reload();
   await page
-    .getByRole("button", { name: "Resume saved board", exact: true })
+    .locator('[data-action="resume-saved"]')
     .click();
   await page.locator("#game").waitFor({ state: "visible" });
   assert.equal(await page.locator("#assist-label").isVisible(), true);
@@ -316,7 +316,7 @@ try {
   }, fixture);
   await page.reload();
   await page
-    .getByRole("button", { name: "Resume saved board", exact: true })
+    .locator('[data-action="resume-saved"]')
     .click();
   await page.locator("#game").waitFor({ state: "visible" });
   await page.getByRole("button", { name: "Resume", exact: true }).click();
@@ -337,7 +337,7 @@ try {
   await page.getByRole("button", { name: "Done", exact: true }).click();
   await page.reload();
   await page
-    .getByRole("button", { name: "Resume saved board", exact: true })
+    .locator('[data-action="resume-saved"]')
     .click();
   await page.locator(".result-badge").waitFor({ state: "visible" });
   assert.equal(

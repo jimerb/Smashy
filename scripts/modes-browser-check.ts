@@ -93,7 +93,7 @@ try {
   await page.goto(base);
   await page.locator('[data-mode="puzzles"]').click();
   await page.locator('[data-puzzle="0"]').click();
-  await page.getByRole("button", { name: "Play Puzzles" }).click();
+  await page.getByRole("button", { name: "New Puzzles game" }).click();
   await ready();
   let expectedTotal = 0;
   for (let index = 0; index < 50; index++) {
@@ -143,7 +143,7 @@ try {
   await page.locator("#dialog").waitFor({ state: "visible" });
   assert.equal(await page.locator("[data-puzzle]:enabled").count(), 50);
   await page.locator('[data-puzzle="24"]').click();
-  await page.getByRole("button", { name: "Play Puzzles" }).click();
+  await page.getByRole("button", { name: "New Puzzles game" }).click();
   await ready();
   assert.equal((await read()).active.checkpoint.progress.startPuzzleIndex, 24);
   await page.reload();
@@ -162,7 +162,7 @@ try {
   await page.locator("#home").waitFor({ state: "visible" });
   await page.locator('[data-mode="journey"]').click();
   await page.locator("#difficulty").selectOption("gentle");
-  await page.getByRole("button", { name: "Play Journey" }).click();
+  await page.getByRole("button", { name: "New Journey game" }).click();
   await ready();
   assert.equal(await page.locator("#dialog").isVisible(), false);
   for (const difficulty of [
@@ -221,7 +221,7 @@ try {
   await page
     .getByRole("button", { name: "Use these rules", exact: true })
     .click();
-  await page.getByRole("button", { name: "Play Custom" }).click();
+  await page.getByRole("button", { name: "New Custom game" }).click();
   await page
     .getByRole("button", { name: "Replace saved game", exact: true })
     .click();

@@ -26,6 +26,8 @@ export interface RunProgress {
   startPuzzleIndex: number;
   journeyStage: number;
   configId: string;
+  /** Locked-puzzle experiments never advance earned shelf progress. */
+  puzzlePractice?: boolean;
 }
 
 const MODES: readonly RunMode[] = [
@@ -61,6 +63,13 @@ export function validateProgress(value: unknown): value is RunProgress {
     return false;
   if (p.mode !== "journey" && p.journeyStage !== 0) return false;
   if (p.mode === "journey" && p.startDifficulty === "custom") return false;
+  if (p.puzzlePractice !== undefined && typeof p.puzzlePractice !== "boolean")
+    return false;
+  if (
+    p.puzzlePractice &&
+    (p.mode !== "puzzles" || !p.configId.endsWith("-practice"))
+  )
+    return false;
   return true;
 }
 
@@ -68,6 +77,7 @@ export function createProgress(
   mode: RunMode,
   startDifficulty: Difficulty,
   puzzleIndex = 0,
+  puzzlePractice = false,
 ): RunProgress {
   const progress: RunProgress = {
     mode,
@@ -86,9 +96,22 @@ export function createProgress(
               ? "custom-v1"
               : "lesson-v1",
   };
+  if (puzzlePractice) {
+    progress.puzzlePractice = true;
+    progress.configId += "-practice";
+  }
   if (!validateProgress(progress))
     throw new Error("Run progression is invalid.");
   return progress;
+}
+
+/** A practice clear is still a clear, but earns no permanent unlock. */
+export function earnedPuzzleCompletion(game: GameState, progress: RunProgress) {
+  return progress.mode === "puzzles" &&
+    !progress.puzzlePractice &&
+    game.status === "cleared"
+    ? { [game.config.profile]: progress.puzzleIndex + 1 }
+    : undefined;
 }
 
 export function journeyDifficulty(progress: RunProgress): JourneyDifficulty {
@@ -151,7 +174,7 @@ export function modeContext(progress: RunProgress): string {
   if (!validateProgress(progress))
     throw new Error("Run progression is invalid.");
   if (progress.mode === "puzzles")
-    return `Puzzle ${progress.puzzleIndex + 1} of ${PUZZLES.length}`;
+    return `${progress.puzzlePractice ? "Practice puzzle" : "Puzzle"} ${progress.puzzleIndex + 1} of ${PUZZLES.length}`;
   if (progress.mode === "journey")
     return `Journey · Board ${progress.journeyStage + 1}`;
   return progress.mode === "classic"

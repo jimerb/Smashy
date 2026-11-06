@@ -13,7 +13,7 @@ const errors: string[] = [];
 p.on("pageerror", (e) => errors.push(e.message));
 try {
   await p.goto(base);
-  await p.getByRole("button", { name: "Play Classic" }).click();
+  await p.getByRole("button", { name: "New Classic game" }).click();
   await p.waitForFunction(
     () =>
       !(document.querySelector("#game") as HTMLElement).hidden &&

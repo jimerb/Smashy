@@ -43,7 +43,7 @@ async function start() {
   p.setDefaultTimeout(12000);
   p.on("pageerror", (e) => errors.push(e.message));
   await p.goto(url);
-  await p.getByRole("button", { name: "Play Classic" }).click();
+  await p.getByRole("button", { name: "New Classic game" }).click();
   await ready(p);
   return { c, p };
 }
@@ -90,7 +90,7 @@ async function fixture(
   );
   await p.reload();
   await p
-    .getByRole("button", { name: "Resume saved board", exact: true })
+    .locator('[data-action="resume-saved"]')
     .click();
   await p.locator("#game").waitFor({ state: "visible" });
   await p.getByRole("button", { name: "Resume", exact: true }).click();
@@ -220,7 +220,7 @@ try {
     );
     await p.reload();
     await p
-      .getByRole("button", { name: "Resume saved board", exact: true })
+      .locator('[data-action="resume-saved"]')
       .click();
     await p.locator(".score-breakdown").waitFor({ state: "visible" });
     assert(
@@ -270,7 +270,7 @@ try {
     await p.goto(url);
     await p.locator('[data-mode="puzzles"]').click();
     await p.locator('[data-puzzle="0"]').click();
-    await p.getByRole("button", { name: "Play Puzzles" }).click();
+    await p.getByRole("button", { name: "New Puzzles game" }).click();
     await ready(p);
     await actualShot(p);
     await p.locator(".score-breakdown").waitFor({ state: "visible" });
