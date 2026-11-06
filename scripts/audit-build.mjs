@@ -22,6 +22,15 @@ assert.equal(
   "Source changed after the successful build. Rebuild before audit/package.",
 );
 const files = walk("dist");
+// Only these AAC playback copies of the supplied songs may be packaged as audio.
+const approvedMusic = [
+  "01-relaxed-pocket-aac.m4a",
+  "02-soft-pixel-play-aac.m4a",
+  "03-cozy-game-loop-aac.m4a",
+  "04-puzzle-pulse-aac.m4a",
+];
+const musicAssetPattern =
+  /^(?:01-relaxed-pocket|02-soft-pixel-play|03-cozy-game-loop|04-puzzle-pulse)-aac-[\w-]+\.m4a$/;
 // Match this build machine's actual paths, rather than third-party examples
 // such as generic user-folder examples or escaped source-map expressions.
 const localPaths = [os.homedir(), process.cwd()].map((value) =>
@@ -43,6 +52,7 @@ const inventory = files.map((file) => {
   assert(
     /\.(html|js|css|map)$/.test(file) ||
       ["LICENSES.txt", "favicon.svg"].includes(path.basename(file)) ||
+      musicAssetPattern.test(path.basename(file)) ||
       /^(?:workshop-night-ready-v1-[\w-]+\.webp|smashy-(?:wordmark|logo-primary)-ready-v1-[\w-]+\.png|(?:chip|gum|rivet|wisp|bash|loop|peb|anchor)-(?:sprite-ready|faceplate)-v1-[\w-]+\.png)$/.test(
         path.basename(file),
       ),
@@ -62,6 +72,30 @@ const inventory = files.map((file) => {
     sha256: crypto.createHash("sha256").update(data).digest("hex"),
   };
 });
+const musicFiles = inventory.filter((row) =>
+  musicAssetPattern.test(path.basename(row.file)),
+);
+assert.equal(
+  musicFiles.length,
+  approvedMusic.length,
+  "Package all four soundtrack files exactly once",
+);
+for (const source of approvedMusic) {
+  const stem = source.slice(0, -4);
+  const packaged = musicFiles.find((row) =>
+    path.basename(row.file).startsWith(stem + "-"),
+  );
+  assert(packaged, `Missing soundtrack file: ${source}`);
+  const expected = crypto
+    .createHash("sha256")
+    .update(fs.readFileSync(path.join("public/music", source)))
+    .digest("hex");
+  assert.equal(
+    packaged.sha256,
+    expected,
+    `Packaged soundtrack bytes differ: ${source}`,
+  );
+}
 for (const dir of ["reference", "research", "design", ".local"])
   assert(
     !files.some((f) => f.replaceAll("\\", "/").split("/").includes(dir)),
@@ -69,7 +103,9 @@ for (const dir of ["reference", "research", "design", ".local"])
   );
 const sourceFiles = walk("src");
 assert(
-  !sourceFiles.some((f) => /\.(exe|dll|wav|mp3|png|jpg|webp)$/i.test(f)),
+  !sourceFiles.some((f) =>
+    /\.(exe|dll|wav|mp3|m4a|ogg|flac|png|jpg|webp)$/i.test(f),
+  ),
   "Binary media must use the explicit original-asset import path",
 );
 for (const file of sourceFiles) {
@@ -85,17 +121,20 @@ const report = {
   sources,
   at: new Date().toISOString(),
   boundary:
-    "Production file and source-import audit; explicit original art, procedural animation and audio; not a legal or human aesthetic assessment.",
+    "Production file and source-import audit; explicit original art, procedural animation and sound effects, and four owner-supplied soundtrack files; not a legal or human aesthetic assessment.",
   runtimeAssets: {
     characters:
       "public/art/ready/* — exact pre-normalized original bodies, original clean faceplates and local facial-state layers; explicit imports with procedural fallback",
     board: "src/render/index.ts — original Pixi geometry",
     sound: "src/audio/index.ts — original Web Audio synthesis",
+    music:
+      "public/music/01-relaxed-pocket-aac.m4a, 02-soft-pixel-play-aac.m4a, 03-cozy-game-loop-aac.m4a, 04-puzzle-pulse-aac.m4a — AAC playback copies of the owner-supplied soundtrack, ordered looping playlist with independent volume/mute",
     icon: "public/favicon.svg — original mallet/block vector",
     fonts: "local system font stack; no font files or downloads",
     levels:
       "src/content/lessons.ts, src/content/puzzles.ts (50 authored identities / 100 explicit layouts), and original seeded core generation",
   },
+  musicTracks: musicFiles,
   fileCount: files.length,
   bytes: inventory.reduce((n, f) => n + f.bytes, 0),
   inventory,

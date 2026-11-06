@@ -33,6 +33,7 @@ const mime = {
   ".png": "image/png",
   ".webp": "image/webp",
   ".svg": "image/svg+xml",
+  ".m4a": "audio/mp4",
 };
 const server = http.createServer((req, res) => {
   if (!["GET", "HEAD"].includes(req.method)) {
@@ -77,16 +78,53 @@ const server = http.createServer((req, res) => {
       res.end();
       return;
     }
-    res.writeHead(200, {
+    const size = fs.statSync(file).size;
+    const headers = {
       "Content-Type": mime[path.extname(file)] || "application/octet-stream",
       "Cache-Control": "no-cache",
       "X-Content-Type-Options": "nosniff",
-    });
-    if (req.method === "HEAD") {
+      "Accept-Ranges": "bytes",
+      "Content-Length": size,
+    };
+    let start = 0,
+      end = size - 1;
+    // Safari's media loader seeks with single byte ranges, including suffixes.
+    if (req.headers.range && req.method === "GET") {
+      const match = /^bytes=(\d*)-(\d*)$/.exec(req.headers.range);
+      if (match && (match[1] || match[2])) {
+        start = match[1]
+          ? Number(match[1])
+          : Math.max(0, size - Number(match[2]));
+        end =
+          match[1] && match[2]
+            ? Math.min(Number(match[2]), size - 1)
+            : size - 1;
+      } else start = -1;
+      if (
+        !Number.isSafeInteger(start) ||
+        !Number.isSafeInteger(end) ||
+        start < 0 ||
+        start >= size ||
+        end < start
+      ) {
+        res.writeHead(416, {
+          "Content-Range": `bytes */${size}`,
+          "Content-Length": 0,
+        });
+        res.end();
+        return;
+      }
+      res.writeHead(206, {
+        ...headers,
+        "Content-Range": `bytes ${start}-${end}/${size}`,
+        "Content-Length": end - start + 1,
+      });
+    } else res.writeHead(200, headers);
+    if (req.method === "HEAD" || size === 0) {
       res.end();
       return;
     }
-    fs.createReadStream(file).pipe(res);
+    fs.createReadStream(file, { start, end }).pipe(res);
   } catch {
     res.writeHead(400);
     res.end();

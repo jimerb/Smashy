@@ -13,14 +13,29 @@ The production build imports an explicit set of assets; it does not copy an enti
 
 ## Audio
 
-All current game sound effects are synthesized by Smashy's own Web Audio code. No prerecorded audio files are loaded.
+Game sound effects are synthesized by Smashy's own Web Audio code. Background music is a separate, prerecorded soundtrack supplied by the project owner.
 
 | Source | Purpose |
 | --- | --- |
 | `src/audio/index.ts` | Oscillator-based launch, rebound, attachment, danger, clear, loss and interface cues; mixing, mute and cancellation |
 | `src/audio/breakage.ts` | Deterministic cosmetic crack/debris noise generated into audio buffers, varied by the number of pieces and presentation style |
 
-Sound uses cosmetic state and never determines the board, queue, scoring or gameplay randomness. Music is not included in this version.
+Sound uses cosmetic state and never determines the board, queue, scoring or gameplay randomness.
+
+### Music
+
+Browser-ready AAC copies of the four supplied songs are explicitly imported from `public/music/` and play in this order:
+
+| Order | Song | Runtime source |
+| --- | --- | --- |
+| 1 | Relaxed Pocket | `public/music/01-relaxed-pocket-aac.m4a` |
+| 2 | Soft Pixel Play | `public/music/02-soft-pixel-play-aac.m4a` |
+| 3 | Cozy Game Loop | `public/music/03-cozy-game-loop-aac.m4a` |
+| 4 | Puzzle Pulse | `public/music/04-puzzle-pulse-aac.m4a` |
+
+The playlist returns to the first song after the fourth. There is a five-second silent gap after each song, including before the loop repeats. Music starts after the first user interaction at a quiet 8% default volume. Settings has independent music volume and mute controls; music continues in menus and Settings, and pauses when the page is hidden. Music preferences are remembered in this browser.
+
+The supplied recordings are distinct from the synthesized sound effects. The AAC playback copies preserve the songs while providing a browser-ready audio format. The build audit permits exactly the four named music assets and checks their packaged bytes against the curated AAC runtime sources.
 
 ## Dependency notices
 

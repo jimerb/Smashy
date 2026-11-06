@@ -52,6 +52,8 @@ import { createBoardRenderer } from "./render";
 import { apparatusLayout } from "./render/layout";
 import { flightPresentationSpeed } from "./render/flight";
 import { SmashyAudio } from "./audio";
+import { SmashyMusic, MUSIC_DEFAULT_VOLUME } from "./audio/music";
+import { MUSIC_TRACKS } from "./audio/playlist";
 import {
   createReplay,
   appendReplay,
@@ -160,6 +162,8 @@ interface Settings {
   allowLockedPuzzles: boolean;
   muted: boolean;
   volume: number;
+  musicMuted: boolean;
+  musicVolume: number;
   reduced: boolean;
   reducedDecoration: boolean;
   guide: boolean;
@@ -173,6 +177,8 @@ const defaults: Settings = {
   allowLockedPuzzles: false,
   muted: false,
   volume: 0.35,
+  musicMuted: false,
+  musicVolume: MUSIC_DEFAULT_VOLUME,
   reduced: matchMedia("(prefers-reduced-motion: reduce)").matches,
   reducedDecoration: false,
   guide: false,
@@ -189,6 +195,7 @@ try {
       "undoPenalty",
       "allowLockedPuzzles",
       "muted",
+      "musicMuted",
       "reduced",
       "reducedDecoration",
       "guide",
@@ -197,6 +204,13 @@ try {
       if (typeof s[k] === "boolean") settings[k] = s[k];
     if (typeof s.volume === "number" && s.volume >= 0 && s.volume <= 1)
       settings.volume = s.volume;
+    if (
+      typeof s.musicVolume === "number" &&
+      Number.isFinite(s.musicVolume) &&
+      s.musicVolume >= 0 &&
+      s.musicVolume <= 1
+    )
+      settings.musicVolume = s.musicVolume;
     if (s.input === "fire" || s.input === "release") settings.input = s.input;
     if (s.intensity >= 0.7 && s.intensity <= 1)
       settings.intensity = s.intensity;
@@ -335,6 +349,7 @@ const store = createScoreStore<Checkpoint>(owner, {
   validateCheckpoint: validCheckpoint,
 });
 const audio = new SmashyAudio();
+const music = new SmashyMusic(MUSIC_TRACKS, { onChange: updateMusicControls });
 function applySettings() {
   const caption = document.querySelector(".pad-caption");
   if (caption)
@@ -346,10 +361,29 @@ function applySettings() {
   $("#canvas-host").style.filter = `brightness(${settings.brightness})`;
   audio.setMuted(settings.muted);
   audio.setVolume(settings.volume);
+  music.setPreferences(settings.musicMuted, settings.musicVolume);
   updateSoundControls();
   try {
     localStorage.setItem("smashy.settings.v1", JSON.stringify(settings));
   } catch {}
+}
+function updateMusicControls() {
+  const status = document.querySelector("#music-status");
+  if (status)
+    status.textContent =
+      music.state === "unavailable"
+        ? "Music is unavailable right now. Reload to retry; gameplay still works."
+        : music.state === "muted"
+          ? "Music muted. Your place in the playlist is kept."
+          : music.state === "locked" || music.state === "blocked"
+            ? "Starts after your first tap or click."
+            : music.state === "gap"
+              ? `Five-second break · next: ${music.track.title}`
+              : music.state === "paused"
+                ? "Music paused while this tab is away."
+                : `${music.state === "loading" ? "Loading" : "Playing"}: ${music.track.title}`;
+  const output = document.querySelector("#music-volume-value");
+  if (output) output.textContent = `${Math.round(settings.musicVolume * 100)}%`;
 }
 function updateSoundControls() {
   document
@@ -359,7 +393,7 @@ function updateSoundControls() {
       b.setAttribute(
         "aria-label",
         !audio.available
-          ? "Sound unavailable — game continues silently"
+          ? "Sound unavailable — effects disabled"
           : settings.muted
             ? "Sound off — unmute"
             : "Sound on — mute",
@@ -368,9 +402,13 @@ function updateSoundControls() {
         "aria-pressed",
         String(!settings.muted && audio.available),
       );
+      b.setAttribute(
+        "aria-description",
+        "Sound effects only. Music has separate volume and mute controls in Settings.",
+      );
       b.title = audio.available
-        ? "Sound"
-        : "Browser audio unavailable. The game continues silently.";
+        ? "Sound effects — music is controlled in Settings"
+        : "Sound effects unavailable. Music is controlled separately in Settings.";
     });
 }
 async function unlockAudio() {
@@ -1451,8 +1489,19 @@ async function retrySaving() {
 function showSettings() {
   openDialog(
     "Make yourself comfortable",
-    `<label class="setting-row"><span>Sound effects<small>Soft taps, clicks and crumbling sounds.</small></span><input id="setting-muted" type="checkbox" ${!settings.muted ? "checked" : ""}></label><label class="setting-row"><span>Effects volume</span><input id="setting-volume" type="range" min="0" max="1" step="0.05" value="${settings.volume}"></label><label class="setting-row"><span>Reduced motion<small>Less movement. Same rules and score.</small></span><input id="setting-reduced" type="checkbox" ${settings.reduced ? "checked" : ""}></label><label class="setting-row"><span>Simple backdrop<small>Remove workshop props and frame texture. Keep the toys, controls and motion.</small></span><input id="setting-decoration" type="checkbox" ${settings.reducedDecoration ? "checked" : ""}></label><label class="setting-row"><span>Full path guide<small>Marks an active continuing run Assisted permanently. After a finished run, applies to your next attempt.</small></span><input id="setting-guide" type="checkbox" ${(started ? guide : settings.guide) ? "checked" : ""}></label><label class="setting-row"><span>500-point Undo penalty<small>On by default. Undo removes the last shot’s points, then costs 500 pre-shot points. Turn off for free Undo.</small></span><input id="setting-undo-penalty" type="checkbox" ${settings.undoPenalty ? "checked" : ""}></label><label class="setting-row"><span>Allow Playing Locked Puzzles<small>Try locked puzzles as practice. Practice never earns shelf unlocks; earned progress stays saved.</small></span><input id="setting-locked-puzzles" type="checkbox" ${settings.allowLockedPuzzles ? "checked" : ""}></label><label class="setting-row"><span>Separate Fire button<small>Aiming touches never fire on release.</small></span><input id="setting-input" type="checkbox" ${settings.input === "fire" ? "checked" : ""}></label><label class="setting-row"><span>Color intensity</span><input id="setting-intensity" type="range" min="0.7" max="1" step="0.05" value="${settings.intensity}"></label><label class="setting-row"><span>Shape marks<small>Extra identity marks and stronger outlines.</small></span><input id="setting-glyphs" type="checkbox" ${settings.glyphs ? "checked" : ""}></label><label class="setting-row"><span>Board brightness</span><input id="setting-brightness" type="range" min="0.75" max="1" step="0.05" value="${settings.brightness}"></label><p class="small muted">Camera shake is off. There is no background music track. Presentation settings keep the rules unchanged. The Undo penalty setting controls whether each successful Undo costs 500 points. Locked-puzzle access permits practice without earning unlocks.</p>`,
+    `<label class="setting-row"><span>Sound effects<small>Soft taps, clicks and crumbling sounds.</small></span><input id="setting-muted" type="checkbox" ${!settings.muted ? "checked" : ""}></label><label class="setting-row"><span>Effects volume</span><input id="setting-volume" type="range" min="0" max="1" step="0.05" value="${settings.volume}"></label><label class="setting-row"><span>Music<small>Relaxed Pocket → Soft Pixel Play → Cozy Game Loop → Puzzle Pulse. Five seconds between songs; loops in order.</small></span><input id="setting-music" type="checkbox" ${!settings.musicMuted ? "checked" : ""}></label><label class="setting-row"><span>Music volume <output id="music-volume-value">${Math.round(settings.musicVolume * 100)}%</output><small>Low by default. Independent of sound effects.</small></span><input id="setting-music-volume" aria-label="Music volume" type="range" min="0" max="1" step="0.01" value="${settings.musicVolume}"></label><p id="music-status" class="small muted" role="status"></p><label class="setting-row"><span>Reduced motion<small>Less movement. Same rules and score.</small></span><input id="setting-reduced" type="checkbox" ${settings.reduced ? "checked" : ""}></label><label class="setting-row"><span>Simple backdrop<small>Remove workshop props and frame texture. Keep the toys, controls and motion.</small></span><input id="setting-decoration" type="checkbox" ${settings.reducedDecoration ? "checked" : ""}></label><label class="setting-row"><span>Full path guide<small>Marks an active continuing run Assisted permanently. After a finished run, applies to your next attempt.</small></span><input id="setting-guide" type="checkbox" ${(started ? guide : settings.guide) ? "checked" : ""}></label><label class="setting-row"><span>500-point Undo penalty<small>On by default. Undo removes the last shot’s points, then costs 500 pre-shot points. Turn off for free Undo.</small></span><input id="setting-undo-penalty" type="checkbox" ${settings.undoPenalty ? "checked" : ""}></label><label class="setting-row"><span>Allow Playing Locked Puzzles<small>Try locked puzzles as practice. Practice never earns shelf unlocks; earned progress stays saved.</small></span><input id="setting-locked-puzzles" type="checkbox" ${settings.allowLockedPuzzles ? "checked" : ""}></label><label class="setting-row"><span>Separate Fire button<small>Aiming touches never fire on release.</small></span><input id="setting-input" type="checkbox" ${settings.input === "fire" ? "checked" : ""}></label><label class="setting-row"><span>Color intensity</span><input id="setting-intensity" type="range" min="0.7" max="1" step="0.05" value="${settings.intensity}"></label><label class="setting-row"><span>Shape marks<small>Extra identity marks and stronger outlines.</small></span><input id="setting-glyphs" type="checkbox" ${settings.glyphs ? "checked" : ""}></label><label class="setting-row"><span>Board brightness</span><input id="setting-brightness" type="range" min="0.75" max="1" step="0.05" value="${settings.brightness}"></label><p class="small muted">Camera shake is off. Presentation settings keep the rules unchanged. The Undo penalty setting controls whether each successful Undo costs 500 points. Locked-puzzle access permits practice without earning unlocks.</p>`,
   );
+  updateMusicControls();
+  $<HTMLInputElement>("#setting-music").onchange = (e) => {
+    settings.musicMuted = !(e.target as HTMLInputElement).checked;
+    applySettings();
+    if (!settings.musicMuted) music.startFromGesture();
+  };
+  $<HTMLInputElement>("#setting-music-volume").oninput = (e) => {
+    settings.musicVolume = +(e.target as HTMLInputElement).value;
+    applySettings();
+    music.startFromGesture();
+  };
   $<HTMLInputElement>("#setting-muted").onchange = (e) => {
     settings.muted = !(e.target as HTMLInputElement).checked;
     applySettings();
@@ -1461,7 +1510,7 @@ function showSettings() {
     const note = document.createElement("p");
     note.className = "saved-notice";
     note.textContent =
-      "Browser audio is unavailable. Play continues silently; reload to retry audio. Your sound preferences are retained.";
+      "Sound effects are unavailable. Play continues without effects; reload to retry. Music has separate controls.";
     $("#dialog-body").prepend(note);
   }
   $<HTMLInputElement>("#setting-volume").oninput = (e) => {
@@ -1850,6 +1899,7 @@ $("#touch-pad").addEventListener("contextmenu", (e) => {
 document.addEventListener(
   "pointerdown",
   (e) => {
+    if (!document.hidden && e.isTrusted) music.startFromGesture();
     touchMode = e.pointerType !== "mouse";
     suppressedTouchClick = null;
     activePointers.add(e.pointerId);
@@ -1868,6 +1918,7 @@ document.addEventListener(
   true,
 );
 document.addEventListener("keydown", (e) => {
+  if (!document.hidden && e.isTrusted && !e.repeat) music.startFromGesture();
   if ($<HTMLDialogElement>("#dialog").open) return;
   if (
     e.key.toLowerCase() === "m" &&
@@ -1899,10 +1950,13 @@ document.addEventListener("keydown", (e) => {
 window.addEventListener("blur", () => {
   if (started && !touchMode) pause();
 });
+window.addEventListener("pageshow", () => music.setHidden(document.hidden));
 window.addEventListener("pagehide", () => {
+  music.setHidden(true);
   if (started) pause();
 });
 document.addEventListener("visibilitychange", () => {
+  music.setHidden(document.hidden);
   if (document.hidden && started) pause();
 });
 let lastW = 0,

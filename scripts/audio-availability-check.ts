@@ -13,11 +13,14 @@ try {
     // Literal browser code avoids tsx's injected class-name helper becoming an
     // undefined closure inside a serialized page initialization callback.
     const mocks = {
-      missing: "Object.defineProperty(window,'AudioContext',{configurable:true,value:undefined});Object.defineProperty(window,'webkitAudioContext',{configurable:true,value:undefined});",
-      constructor: "Object.defineProperty(window,'AudioContext',{configurable:true,value:class{constructor(){throw new Error('Harness blocked audio');}}});",
-      resume: "const OriginalAudio=window.AudioContext;Object.defineProperty(window,'AudioContext',{configurable:true,value:class extends OriginalAudio{get state(){return 'suspended';}resume(){return Promise.reject(new DOMException('Harness blocked resume','NotAllowedError'));}}});",
+      missing:
+        "Object.defineProperty(window,'AudioContext',{configurable:true,value:undefined});Object.defineProperty(window,'webkitAudioContext',{configurable:true,value:undefined});",
+      constructor:
+        "Object.defineProperty(window,'AudioContext',{configurable:true,value:class{constructor(){throw new Error('Harness blocked audio');}}});",
+      resume:
+        "const OriginalAudio=window.AudioContext;Object.defineProperty(window,'AudioContext',{configurable:true,value:class extends OriginalAudio{get state(){return 'suspended';}resume(){return Promise.reject(new DOMException('Harness blocked resume','NotAllowedError'));}}});",
     };
-    await context.addInitScript({content:mocks[failure]});
+    await context.addInitScript({ content: mocks[failure] });
     console.log(`Checking ${failure} audio`);
     const p = await context.newPage();
     p.setDefaultTimeout(10000);
@@ -51,7 +54,7 @@ try {
     await p.getByRole("button", { name: "Settings", exact: true }).click();
     assert.match(
       await p.locator("#dialog-body").innerText(),
-      /Browser audio is unavailable\. Play continues silently/,
+      /Sound effects are unavailable\. Play continues without effects/,
     );
     await p.locator("#setting-muted").uncheck();
     assert.equal(await sound.getAttribute("aria-pressed"), "false");

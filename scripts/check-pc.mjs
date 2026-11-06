@@ -22,6 +22,7 @@ const scripts = [
   "reliability-browser-check",
   "pc-clarity-pacing-check",
   "audio-availability-check",
+  "music-browser-check",
 ];
 if (process.argv.includes("--full")) scripts.push("modes-browser-check");
 const started = Date.now(),
