@@ -2,6 +2,10 @@
 
 **One good shot. A whole lot of smash.**
 
+## [▶ Play Smashy in your browser](https://jimerb.github.io/Smashy/)
+
+No download or account needed. Open the game, then try **Learn by smashing**.
+
 ![Smashy promotional artwork: tactile toy characters, a mallet-and-block logo, and a bank shot in a midnight workshop](assets/readme/smashy-social.png)
 
 Line up a shot, connect a few friendly toys, and find the support that brings a whole cluster tumbling down. Smashy is a browser puzzle game with a quiet workshop atmosphere, expressive characters, satisfying breaking sounds, and no timer rushing your next move.
@@ -143,6 +147,8 @@ pnpm dev
 The development server uses port **5174**. Its different address has separate browser-local saves and records.
 
 ## Development and checks
+
+The [Pages workflow](.github/workflows/pages.yml) tests, builds and audits the game on pushes to `main`, then publishes only the static `dist/` output to GitHub Pages. It can also be run manually from the repository's Actions tab. No game server or account backend is required for hosted play.
 
 Smashy uses **TypeScript, PixiJS, Vite, HTML/CSS, IndexedDB, and Web Audio**. The deterministic rules are separate from rendering, sound, and storage.
 
