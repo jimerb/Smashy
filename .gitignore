@@ -1,0 +1,15 @@
+# Generated dependencies, builds, test output and local settings
+/node_modules/
+/dist/
+/.local/
+/review/
+/test-results/
+/playwright-report/
+/reference/
+/research/
+/design/
+/releases/
+/.env
+/.env.*
+!.env.example
+*.log

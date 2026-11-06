@@ -1,0 +1,53 @@
+{
+  "name": "smashy",
+  "version": "0.3.3",
+  "private": true,
+  "packageManager": "pnpm@11.25.0",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 5174",
+    "start": "node scripts/serve.mjs --port 5173",
+    "build": "node scripts/build.mjs",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "tsx --test tests/*.test.ts",
+    "test:browser": "tsx scripts/browser-check.ts",
+    "test:input": "tsx scripts/input-check.ts",
+    "test:storage-browser": "tsx scripts/storage-browser-check.ts",
+    "test:modes-browser": "tsx scripts/modes-browser-check.ts",
+    "test:records-browser": "tsx scripts/records-browser-check.ts",
+    "test:assistance-browser": "tsx scripts/assistance-browser-check.ts",
+    "test:campaign-browser": "tsx scripts/campaign-restart-check.ts",
+    "test:descent-browser": "tsx scripts/descent-browser-check.ts",
+    "test:viewport-browser": "tsx scripts/viewport-browser-check.ts",
+    "test:visual": "tsx scripts/visual-check.ts",
+    "test:reliability-browser": "tsx scripts/reliability-browser-check.ts",
+    "test:pc-clarity": "tsx scripts/pc-clarity-pacing-check.ts",
+    "test:audio-availability": "tsx scripts/audio-availability-check.ts",
+    "test:pc": "node scripts/check-pc.mjs",
+    "audit:build": "node scripts/audit-build.mjs",
+    "format": "prettier --write src tests scripts vite.config.ts"
+  },
+  "dependencies": {
+    "pixi.js": "8.14.3"
+  },
+  "devDependencies": {
+    "@types/node": "24.10.0",
+    "fake-indexeddb": "6.2.4",
+    "playwright-core": "1.56.1",
+    "prettier": "3.6.2",
+    "tsx": "4.20.6",
+    "typescript": "5.9.3",
+    "vite": "7.3.7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jimerb/Smashy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jimerb/Smashy/issues"
+  },
+  "homepage": "https://github.com/jimerb/Smashy#readme"
+}

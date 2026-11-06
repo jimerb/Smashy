@@ -1,0 +1,2962 @@
+{
+  "boundary": "Automated original-content solvability witnesses, not human balance or enjoyment validation.",
+  "contentVersion": 1,
+  "method": "Pure core half-degree trajectory corpus; prefer direct/low-bounce shortest routes; greedy search with width10 beam fallback. Deterministic authored seeds chosen to reduce forced queue busywork. Stored witnesses replay unchanged core.",
+  "boardCount": 100,
+  "solved": 100,
+  "boards": [
+    {
+      "id": "puzzle-01",
+      "profile": "standard",
+      "startingCells": 2,
+      "shots": 1,
+      "solution": [
+        90
+      ],
+      "events": [
+        {
+          "angle": 90,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 1210,
+      "valid": true
+    },
+    {
+      "id": "puzzle-01",
+      "profile": "compact",
+      "startingCells": 2,
+      "shots": 1,
+      "solution": [
+        90
+      ],
+      "events": [
+        {
+          "angle": 90,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 1210,
+      "valid": true
+    },
+    {
+      "id": "puzzle-02",
+      "profile": "standard",
+      "startingCells": 2,
+      "shots": 1,
+      "solution": [
+        95
+      ],
+      "events": [
+        {
+          "angle": 95,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 1210,
+      "valid": true
+    },
+    {
+      "id": "puzzle-02",
+      "profile": "compact",
+      "startingCells": 2,
+      "shots": 1,
+      "solution": [
+        96.5
+      ],
+      "events": [
+        {
+          "angle": 96.5,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 1210,
+      "valid": true
+    },
+    {
+      "id": "puzzle-03",
+      "profile": "standard",
+      "startingCells": 2,
+      "shots": 1,
+      "solution": [
+        93.5
+      ],
+      "events": [
+        {
+          "angle": 93.5,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 1210,
+      "valid": true
+    },
+    {
+      "id": "puzzle-03",
+      "profile": "compact",
+      "startingCells": 2,
+      "shots": 1,
+      "solution": [
+        93.5
+      ],
+      "events": [
+        {
+          "angle": 93.5,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 1210,
+      "valid": true
+    },
+    {
+      "id": "puzzle-04",
+      "profile": "standard",
+      "startingCells": 2,
+      "shots": 1,
+      "solution": [
+        91.5
+      ],
+      "events": [
+        {
+          "angle": 91.5,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 1210,
+      "valid": true
+    },
+    {
+      "id": "puzzle-04",
+      "profile": "compact",
+      "startingCells": 2,
+      "shots": 1,
+      "solution": [
+        92
+      ],
+      "events": [
+        {
+          "angle": 92,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 1210,
+      "valid": true
+    },
+    {
+      "id": "puzzle-05",
+      "profile": "standard",
+      "startingCells": 4,
+      "shots": 2,
+      "solution": [
+        96.5,
+        83.5
+      ],
+      "events": [
+        {
+          "angle": 96.5,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        },
+        {
+          "angle": 83.5,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 1220,
+      "valid": true
+    },
+    {
+      "id": "puzzle-05",
+      "profile": "compact",
+      "startingCells": 4,
+      "shots": 2,
+      "solution": [
+        98,
+        82
+      ],
+      "events": [
+        {
+          "angle": 98,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        },
+        {
+          "angle": 82,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 1220,
+      "valid": true
+    },
+    {
+      "id": "puzzle-06",
+      "profile": "standard",
+      "startingCells": 5,
+      "shots": 1,
+      "solution": [
+        93.5
+      ],
+      "events": [
+        {
+          "angle": 93.5,
+          "matched": 3,
+          "dropped": 3,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 1300,
+      "valid": true
+    },
+    {
+      "id": "puzzle-06",
+      "profile": "compact",
+      "startingCells": 5,
+      "shots": 1,
+      "solution": [
+        94.5
+      ],
+      "events": [
+        {
+          "angle": 94.5,
+          "matched": 3,
+          "dropped": 3,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 1300,
+      "valid": true
+    },
+    {
+      "id": "puzzle-07",
+      "profile": "standard",
+      "startingCells": 7,
+      "shots": 1,
+      "solution": [
+        93.5
+      ],
+      "events": [
+        {
+          "angle": 93.5,
+          "matched": 3,
+          "dropped": 5,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 1460,
+      "valid": true
+    },
+    {
+      "id": "puzzle-07",
+      "profile": "compact",
+      "startingCells": 7,
+      "shots": 1,
+      "solution": [
+        94.5
+      ],
+      "events": [
+        {
+          "angle": 94.5,
+          "matched": 3,
+          "dropped": 5,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 1460,
+      "valid": true
+    },
+    {
+      "id": "puzzle-08",
+      "profile": "standard",
+      "startingCells": 6,
+      "shots": 1,
+      "solution": [
+        92
+      ],
+      "events": [
+        {
+          "angle": 92,
+          "matched": 3,
+          "dropped": 4,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 1370,
+      "valid": true
+    },
+    {
+      "id": "puzzle-08",
+      "profile": "compact",
+      "startingCells": 6,
+      "shots": 1,
+      "solution": [
+        93
+      ],
+      "events": [
+        {
+          "angle": 93,
+          "matched": 3,
+          "dropped": 4,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 1370,
+      "valid": true
+    },
+    {
+      "id": "puzzle-09",
+      "profile": "standard",
+      "startingCells": 7,
+      "shots": 1,
+      "solution": [
+        91
+      ],
+      "events": [
+        {
+          "angle": 91,
+          "matched": 4,
+          "dropped": 4,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 1377,
+      "valid": true
+    },
+    {
+      "id": "puzzle-09",
+      "profile": "compact",
+      "startingCells": 7,
+      "shots": 1,
+      "solution": [
+        91.5
+      ],
+      "events": [
+        {
+          "angle": 91.5,
+          "matched": 4,
+          "dropped": 4,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 1377,
+      "valid": true
+    },
+    {
+      "id": "puzzle-10",
+      "profile": "standard",
+      "startingCells": 9,
+      "shots": 1,
+      "solution": [
+        97
+      ],
+      "events": [
+        {
+          "angle": 97,
+          "matched": 3,
+          "dropped": 7,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 1700,
+      "valid": true
+    },
+    {
+      "id": "puzzle-10",
+      "profile": "compact",
+      "startingCells": 9,
+      "shots": 1,
+      "solution": [
+        99
+      ],
+      "events": [
+        {
+          "angle": 99,
+          "matched": 3,
+          "dropped": 7,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 1700,
+      "valid": true
+    },
+    {
+      "id": "puzzle-11",
+      "profile": "standard",
+      "startingCells": 6,
+      "shots": 1,
+      "solution": [
+        110
+      ],
+      "events": [
+        {
+          "angle": 110,
+          "matched": 3,
+          "dropped": 4,
+          "banks": 1
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 1370,
+      "valid": true
+    },
+    {
+      "id": "puzzle-11",
+      "profile": "compact",
+      "startingCells": 6,
+      "shots": 1,
+      "solution": [
+        111.5
+      ],
+      "events": [
+        {
+          "angle": 111.5,
+          "matched": 3,
+          "dropped": 4,
+          "banks": 1
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 1370,
+      "valid": true
+    },
+    {
+      "id": "puzzle-12",
+      "profile": "standard",
+      "startingCells": 6,
+      "shots": 1,
+      "solution": [
+        68.5
+      ],
+      "events": [
+        {
+          "angle": 68.5,
+          "matched": 3,
+          "dropped": 4,
+          "banks": 1
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 1370,
+      "valid": true
+    },
+    {
+      "id": "puzzle-12",
+      "profile": "compact",
+      "startingCells": 6,
+      "shots": 1,
+      "solution": [
+        66.5
+      ],
+      "events": [
+        {
+          "angle": 66.5,
+          "matched": 3,
+          "dropped": 4,
+          "banks": 1
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 1370,
+      "valid": true
+    },
+    {
+      "id": "puzzle-13",
+      "profile": "standard",
+      "startingCells": 7,
+      "shots": 1,
+      "solution": [
+        48.5
+      ],
+      "events": [
+        {
+          "angle": 48.5,
+          "matched": 3,
+          "dropped": 5,
+          "banks": 1
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 1460,
+      "valid": true
+    },
+    {
+      "id": "puzzle-13",
+      "profile": "compact",
+      "startingCells": 7,
+      "shots": 1,
+      "solution": [
+        49
+      ],
+      "events": [
+        {
+          "angle": 49,
+          "matched": 3,
+          "dropped": 5,
+          "banks": 1
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 1460,
+      "valid": true
+    },
+    {
+      "id": "puzzle-14",
+      "profile": "standard",
+      "startingCells": 7,
+      "shots": 1,
+      "solution": [
+        68.5
+      ],
+      "events": [
+        {
+          "angle": 68.5,
+          "matched": 3,
+          "dropped": 5,
+          "banks": 1
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 1460,
+      "valid": true
+    },
+    {
+      "id": "puzzle-14",
+      "profile": "compact",
+      "startingCells": 7,
+      "shots": 1,
+      "solution": [
+        66.5
+      ],
+      "events": [
+        {
+          "angle": 66.5,
+          "matched": 3,
+          "dropped": 5,
+          "banks": 1
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 1460,
+      "valid": true
+    },
+    {
+      "id": "puzzle-15",
+      "profile": "standard",
+      "startingCells": 12,
+      "shots": 2,
+      "solution": [
+        110,
+        68.5
+      ],
+      "events": [
+        {
+          "angle": 110,
+          "matched": 3,
+          "dropped": 4,
+          "banks": 1
+        },
+        {
+          "angle": 68.5,
+          "matched": 3,
+          "dropped": 4,
+          "banks": 1
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 1540,
+      "valid": true
+    },
+    {
+      "id": "puzzle-15",
+      "profile": "compact",
+      "startingCells": 12,
+      "shots": 2,
+      "solution": [
+        111.5,
+        66.5
+      ],
+      "events": [
+        {
+          "angle": 111.5,
+          "matched": 3,
+          "dropped": 4,
+          "banks": 1
+        },
+        {
+          "angle": 66.5,
+          "matched": 3,
+          "dropped": 4,
+          "banks": 1
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 1540,
+      "valid": true
+    },
+    {
+      "id": "puzzle-16",
+      "profile": "standard",
+      "startingCells": 9,
+      "shots": 2,
+      "solution": [
+        95.5,
+        86.5
+      ],
+      "events": [
+        {
+          "angle": 95.5,
+          "matched": 3,
+          "dropped": 2,
+          "banks": 0
+        },
+        {
+          "angle": 86.5,
+          "matched": 3,
+          "dropped": 3,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 1350,
+      "valid": true
+    },
+    {
+      "id": "puzzle-16",
+      "profile": "compact",
+      "startingCells": 9,
+      "shots": 2,
+      "solution": [
+        97,
+        85.5
+      ],
+      "events": [
+        {
+          "angle": 97,
+          "matched": 3,
+          "dropped": 2,
+          "banks": 0
+        },
+        {
+          "angle": 85.5,
+          "matched": 3,
+          "dropped": 3,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 1350,
+      "valid": true
+    },
+    {
+      "id": "puzzle-17",
+      "profile": "standard",
+      "startingCells": 12,
+      "shots": 2,
+      "solution": [
+        101.5,
+        78.5
+      ],
+      "events": [
+        {
+          "angle": 101.5,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        },
+        {
+          "angle": 78.5,
+          "matched": 3,
+          "dropped": 8,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 1860,
+      "valid": true
+    },
+    {
+      "id": "puzzle-17",
+      "profile": "compact",
+      "startingCells": 12,
+      "shots": 2,
+      "solution": [
+        104.5,
+        75.5
+      ],
+      "events": [
+        {
+          "angle": 104.5,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        },
+        {
+          "angle": 75.5,
+          "matched": 3,
+          "dropped": 8,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 1860,
+      "valid": true
+    },
+    {
+      "id": "puzzle-18",
+      "profile": "standard",
+      "startingCells": 6,
+      "shots": 3,
+      "solution": [
+        102.5,
+        90,
+        77.5
+      ],
+      "events": [
+        {
+          "angle": 102.5,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        },
+        {
+          "angle": 90,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        },
+        {
+          "angle": 77.5,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 5,
+      "score": 1230,
+      "valid": true
+    },
+    {
+      "id": "puzzle-18",
+      "profile": "compact",
+      "startingCells": 6,
+      "shots": 3,
+      "solution": [
+        105.5,
+        90,
+        74.5
+      ],
+      "events": [
+        {
+          "angle": 105.5,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        },
+        {
+          "angle": 90,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        },
+        {
+          "angle": 74.5,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 5,
+      "score": 1230,
+      "valid": true
+    },
+    {
+      "id": "puzzle-19",
+      "profile": "standard",
+      "startingCells": 14,
+      "shots": 2,
+      "solution": [
+        100.5,
+        82
+      ],
+      "events": [
+        {
+          "angle": 100.5,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        },
+        {
+          "angle": 82,
+          "matched": 3,
+          "dropped": 10,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 2220,
+      "valid": true
+    },
+    {
+      "id": "puzzle-19",
+      "profile": "compact",
+      "startingCells": 14,
+      "shots": 2,
+      "solution": [
+        103,
+        80
+      ],
+      "events": [
+        {
+          "angle": 103,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        },
+        {
+          "angle": 80,
+          "matched": 3,
+          "dropped": 10,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 2220,
+      "valid": true
+    },
+    {
+      "id": "puzzle-20",
+      "profile": "standard",
+      "startingCells": 9,
+      "shots": 2,
+      "solution": [
+        95.5,
+        78.5
+      ],
+      "events": [
+        {
+          "angle": 95.5,
+          "matched": 3,
+          "dropped": 2,
+          "banks": 0
+        },
+        {
+          "angle": 78.5,
+          "matched": 3,
+          "dropped": 2,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 1300,
+      "valid": true
+    },
+    {
+      "id": "puzzle-20",
+      "profile": "compact",
+      "startingCells": 9,
+      "shots": 2,
+      "solution": [
+        97,
+        75.5
+      ],
+      "events": [
+        {
+          "angle": 97,
+          "matched": 3,
+          "dropped": 2,
+          "banks": 0
+        },
+        {
+          "angle": 75.5,
+          "matched": 3,
+          "dropped": 2,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 1300,
+      "valid": true
+    },
+    {
+      "id": "puzzle-21",
+      "profile": "standard",
+      "startingCells": 6,
+      "shots": 1,
+      "solution": [
+        95
+      ],
+      "events": [
+        {
+          "angle": 95,
+          "matched": 3,
+          "dropped": 3,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 1300,
+      "valid": true
+    },
+    {
+      "id": "puzzle-21",
+      "profile": "compact",
+      "startingCells": 6,
+      "shots": 1,
+      "solution": [
+        96.5
+      ],
+      "events": [
+        {
+          "angle": 96.5,
+          "matched": 3,
+          "dropped": 3,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 1300,
+      "valid": true
+    },
+    {
+      "id": "puzzle-22",
+      "profile": "standard",
+      "startingCells": 8,
+      "shots": 1,
+      "solution": [
+        88
+      ],
+      "events": [
+        {
+          "angle": 88,
+          "matched": 3,
+          "dropped": 3,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 1300,
+      "valid": true
+    },
+    {
+      "id": "puzzle-22",
+      "profile": "compact",
+      "startingCells": 8,
+      "shots": 1,
+      "solution": [
+        87.5
+      ],
+      "events": [
+        {
+          "angle": 87.5,
+          "matched": 3,
+          "dropped": 3,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 1300,
+      "valid": true
+    },
+    {
+      "id": "puzzle-23",
+      "profile": "standard",
+      "startingCells": 8,
+      "shots": 2,
+      "solution": [
+        102.5,
+        84
+      ],
+      "events": [
+        {
+          "angle": 102.5,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        },
+        {
+          "angle": 84,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 1240,
+      "valid": true
+    },
+    {
+      "id": "puzzle-23",
+      "profile": "compact",
+      "startingCells": 8,
+      "shots": 2,
+      "solution": [
+        106.5,
+        81.5
+      ],
+      "events": [
+        {
+          "angle": 106.5,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        },
+        {
+          "angle": 81.5,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 1240,
+      "valid": true
+    },
+    {
+      "id": "puzzle-24",
+      "profile": "standard",
+      "startingCells": 10,
+      "shots": 1,
+      "solution": [
+        97.5
+      ],
+      "events": [
+        {
+          "angle": 97.5,
+          "matched": 3,
+          "dropped": 8,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 1850,
+      "valid": true
+    },
+    {
+      "id": "puzzle-24",
+      "profile": "compact",
+      "startingCells": 10,
+      "shots": 1,
+      "solution": [
+        122
+      ],
+      "events": [
+        {
+          "angle": 122,
+          "matched": 3,
+          "dropped": 8,
+          "banks": 1
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 1850,
+      "valid": true
+    },
+    {
+      "id": "puzzle-25",
+      "profile": "standard",
+      "startingCells": 13,
+      "shots": 1,
+      "solution": [
+        118
+      ],
+      "events": [
+        {
+          "angle": 118,
+          "matched": 3,
+          "dropped": 11,
+          "banks": 1
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 2420,
+      "valid": true
+    },
+    {
+      "id": "puzzle-25",
+      "profile": "compact",
+      "startingCells": 13,
+      "shots": 1,
+      "solution": [
+        118
+      ],
+      "events": [
+        {
+          "angle": 118,
+          "matched": 3,
+          "dropped": 11,
+          "banks": 1
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 2420,
+      "valid": true
+    },
+    {
+      "id": "puzzle-26",
+      "profile": "standard",
+      "startingCells": 18,
+      "shots": 2,
+      "solution": [
+        104.5,
+        75.5
+      ],
+      "events": [
+        {
+          "angle": 104.5,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        },
+        {
+          "angle": 75.5,
+          "matched": 3,
+          "dropped": 14,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 3180,
+      "valid": true
+    },
+    {
+      "id": "puzzle-26",
+      "profile": "compact",
+      "startingCells": 18,
+      "shots": 2,
+      "solution": [
+        108.5,
+        71.5
+      ],
+      "events": [
+        {
+          "angle": 108.5,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        },
+        {
+          "angle": 71.5,
+          "matched": 3,
+          "dropped": 14,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 3180,
+      "valid": true
+    },
+    {
+      "id": "puzzle-27",
+      "profile": "standard",
+      "startingCells": 9,
+      "shots": 2,
+      "solution": [
+        91.5,
+        95.5
+      ],
+      "events": [
+        {
+          "angle": 91.5,
+          "matched": 3,
+          "dropped": 2,
+          "banks": 0
+        },
+        {
+          "angle": 95.5,
+          "matched": 3,
+          "dropped": 2,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 1300,
+      "valid": true
+    },
+    {
+      "id": "puzzle-27",
+      "profile": "compact",
+      "startingCells": 9,
+      "shots": 2,
+      "solution": [
+        91.5,
+        97
+      ],
+      "events": [
+        {
+          "angle": 91.5,
+          "matched": 3,
+          "dropped": 2,
+          "banks": 0
+        },
+        {
+          "angle": 97,
+          "matched": 3,
+          "dropped": 2,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 1300,
+      "valid": true
+    },
+    {
+      "id": "puzzle-28",
+      "profile": "standard",
+      "startingCells": 9,
+      "shots": 3,
+      "solution": [
+        99,
+        91,
+        78
+      ],
+      "events": [
+        {
+          "angle": 99,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        },
+        {
+          "angle": 91,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        },
+        {
+          "angle": 78,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 5,
+      "score": 1260,
+      "valid": true
+    },
+    {
+      "id": "puzzle-28",
+      "profile": "compact",
+      "startingCells": 9,
+      "shots": 3,
+      "solution": [
+        101.5,
+        91.5,
+        74.5
+      ],
+      "events": [
+        {
+          "angle": 101.5,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        },
+        {
+          "angle": 91.5,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        },
+        {
+          "angle": 74.5,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 5,
+      "score": 1260,
+      "valid": true
+    },
+    {
+      "id": "puzzle-29",
+      "profile": "standard",
+      "startingCells": 14,
+      "shots": 1,
+      "solution": [
+        118
+      ],
+      "events": [
+        {
+          "angle": 118,
+          "matched": 3,
+          "dropped": 12,
+          "banks": 1
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 2650,
+      "valid": true
+    },
+    {
+      "id": "puzzle-29",
+      "profile": "compact",
+      "startingCells": 14,
+      "shots": 1,
+      "solution": [
+        118
+      ],
+      "events": [
+        {
+          "angle": 118,
+          "matched": 3,
+          "dropped": 12,
+          "banks": 1
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 2650,
+      "valid": true
+    },
+    {
+      "id": "puzzle-30",
+      "profile": "standard",
+      "startingCells": 10,
+      "shots": 2,
+      "solution": [
+        95.5,
+        86
+      ],
+      "events": [
+        {
+          "angle": 95.5,
+          "matched": 3,
+          "dropped": 2,
+          "banks": 0
+        },
+        {
+          "angle": 86,
+          "matched": 3,
+          "dropped": 2,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 1300,
+      "valid": true
+    },
+    {
+      "id": "puzzle-30",
+      "profile": "compact",
+      "startingCells": 10,
+      "shots": 2,
+      "solution": [
+        97.5,
+        84.5
+      ],
+      "events": [
+        {
+          "angle": 97.5,
+          "matched": 3,
+          "dropped": 2,
+          "banks": 0
+        },
+        {
+          "angle": 84.5,
+          "matched": 3,
+          "dropped": 2,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 1300,
+      "valid": true
+    },
+    {
+      "id": "puzzle-31",
+      "profile": "standard",
+      "startingCells": 12,
+      "shots": 2,
+      "solution": [
+        99,
+        76.5
+      ],
+      "events": [
+        {
+          "angle": 99,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        },
+        {
+          "angle": 76.5,
+          "matched": 3,
+          "dropped": 7,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 1720,
+      "valid": true
+    },
+    {
+      "id": "puzzle-31",
+      "profile": "compact",
+      "startingCells": 12,
+      "shots": 2,
+      "solution": [
+        101.5,
+        65
+      ],
+      "events": [
+        {
+          "angle": 101.5,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        },
+        {
+          "angle": 65,
+          "matched": 3,
+          "dropped": 7,
+          "banks": 1
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 1720,
+      "valid": true
+    },
+    {
+      "id": "puzzle-32",
+      "profile": "standard",
+      "startingCells": 15,
+      "shots": 3,
+      "solution": [
+        104.5,
+        81,
+        85
+      ],
+      "events": [
+        {
+          "angle": 104.5,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        },
+        {
+          "angle": 81,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        },
+        {
+          "angle": 85,
+          "matched": 4,
+          "dropped": 5,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 5,
+      "score": 1497,
+      "valid": true
+    },
+    {
+      "id": "puzzle-32",
+      "profile": "compact",
+      "startingCells": 15,
+      "shots": 3,
+      "solution": [
+        108.5,
+        78.5,
+        83.5
+      ],
+      "events": [
+        {
+          "angle": 108.5,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        },
+        {
+          "angle": 78.5,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        },
+        {
+          "angle": 83.5,
+          "matched": 4,
+          "dropped": 5,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 5,
+      "score": 1497,
+      "valid": true
+    },
+    {
+      "id": "puzzle-33",
+      "profile": "standard",
+      "startingCells": 12,
+      "shots": 2,
+      "solution": [
+        95.5,
+        76.5
+      ],
+      "events": [
+        {
+          "angle": 95.5,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        },
+        {
+          "angle": 76.5,
+          "matched": 3,
+          "dropped": 7,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 1720,
+      "valid": true
+    },
+    {
+      "id": "puzzle-33",
+      "profile": "compact",
+      "startingCells": 12,
+      "shots": 2,
+      "solution": [
+        97,
+        65
+      ],
+      "events": [
+        {
+          "angle": 97,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        },
+        {
+          "angle": 65,
+          "matched": 3,
+          "dropped": 7,
+          "banks": 1
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 1720,
+      "valid": true
+    },
+    {
+      "id": "puzzle-34",
+      "profile": "standard",
+      "startingCells": 14,
+      "shots": 2,
+      "solution": [
+        59,
+        95.5
+      ],
+      "events": [
+        {
+          "angle": 59,
+          "matched": 3,
+          "dropped": 9,
+          "banks": 1
+        },
+        {
+          "angle": 95.5,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 2040,
+      "valid": true
+    },
+    {
+      "id": "puzzle-34",
+      "profile": "compact",
+      "startingCells": 14,
+      "shots": 2,
+      "solution": [
+        58,
+        97
+      ],
+      "events": [
+        {
+          "angle": 58,
+          "matched": 3,
+          "dropped": 9,
+          "banks": 1
+        },
+        {
+          "angle": 97,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 2040,
+      "valid": true
+    },
+    {
+      "id": "puzzle-35",
+      "profile": "standard",
+      "startingCells": 21,
+      "shots": 5,
+      "solution": [
+        104.5,
+        88,
+        93,
+        77.5,
+        90
+      ],
+      "events": [
+        {
+          "angle": 104.5,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        },
+        {
+          "angle": 88,
+          "matched": 0,
+          "dropped": 0,
+          "banks": 0
+        },
+        {
+          "angle": 93,
+          "matched": 10,
+          "dropped": 7,
+          "banks": 0
+        },
+        {
+          "angle": 77.5,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        },
+        {
+          "angle": 90,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 7,
+      "score": 1821,
+      "valid": true
+    },
+    {
+      "id": "puzzle-35",
+      "profile": "compact",
+      "startingCells": 21,
+      "shots": 5,
+      "solution": [
+        108.5,
+        87.5,
+        80,
+        90,
+        74.5
+      ],
+      "events": [
+        {
+          "angle": 108.5,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        },
+        {
+          "angle": 87.5,
+          "matched": 0,
+          "dropped": 0,
+          "banks": 0
+        },
+        {
+          "angle": 80,
+          "matched": 10,
+          "dropped": 7,
+          "banks": 0
+        },
+        {
+          "angle": 90,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        },
+        {
+          "angle": 74.5,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 7,
+      "score": 1821,
+      "valid": true
+    },
+    {
+      "id": "puzzle-36",
+      "profile": "standard",
+      "startingCells": 11,
+      "shots": 2,
+      "solution": [
+        110,
+        87
+      ],
+      "events": [
+        {
+          "angle": 110,
+          "matched": 3,
+          "dropped": 4,
+          "banks": 1
+        },
+        {
+          "angle": 87,
+          "matched": 3,
+          "dropped": 3,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 1470,
+      "valid": true
+    },
+    {
+      "id": "puzzle-36",
+      "profile": "compact",
+      "startingCells": 11,
+      "shots": 2,
+      "solution": [
+        111.5,
+        82
+      ],
+      "events": [
+        {
+          "angle": 111.5,
+          "matched": 3,
+          "dropped": 4,
+          "banks": 1
+        },
+        {
+          "angle": 82,
+          "matched": 3,
+          "dropped": 3,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 1470,
+      "valid": true
+    },
+    {
+      "id": "puzzle-37",
+      "profile": "standard",
+      "startingCells": 10,
+      "shots": 2,
+      "solution": [
+        68.5,
+        91.5
+      ],
+      "events": [
+        {
+          "angle": 68.5,
+          "matched": 3,
+          "dropped": 4,
+          "banks": 1
+        },
+        {
+          "angle": 91.5,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 1390,
+      "valid": true
+    },
+    {
+      "id": "puzzle-37",
+      "profile": "compact",
+      "startingCells": 10,
+      "shots": 2,
+      "solution": [
+        66.5,
+        96.5
+      ],
+      "events": [
+        {
+          "angle": 66.5,
+          "matched": 3,
+          "dropped": 4,
+          "banks": 1
+        },
+        {
+          "angle": 96.5,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 1390,
+      "valid": true
+    },
+    {
+      "id": "puzzle-38",
+      "profile": "standard",
+      "startingCells": 13,
+      "shots": 2,
+      "solution": [
+        48.5,
+        68.5
+      ],
+      "events": [
+        {
+          "angle": 48.5,
+          "matched": 3,
+          "dropped": 5,
+          "banks": 1
+        },
+        {
+          "angle": 68.5,
+          "matched": 3,
+          "dropped": 4,
+          "banks": 1
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 1630,
+      "valid": true
+    },
+    {
+      "id": "puzzle-38",
+      "profile": "compact",
+      "startingCells": 13,
+      "shots": 2,
+      "solution": [
+        49,
+        66.5
+      ],
+      "events": [
+        {
+          "angle": 49,
+          "matched": 3,
+          "dropped": 5,
+          "banks": 1
+        },
+        {
+          "angle": 66.5,
+          "matched": 3,
+          "dropped": 4,
+          "banks": 1
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 1630,
+      "valid": true
+    },
+    {
+      "id": "puzzle-39",
+      "profile": "standard",
+      "startingCells": 14,
+      "shots": 3,
+      "solution": [
+        110,
+        97,
+        83.5
+      ],
+      "events": [
+        {
+          "angle": 110,
+          "matched": 3,
+          "dropped": 4,
+          "banks": 1
+        },
+        {
+          "angle": 97,
+          "matched": 3,
+          "dropped": 2,
+          "banks": 0
+        },
+        {
+          "angle": 83.5,
+          "matched": 3,
+          "dropped": 2,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 5,
+      "score": 1470,
+      "valid": true
+    },
+    {
+      "id": "puzzle-39",
+      "profile": "compact",
+      "startingCells": 14,
+      "shots": 3,
+      "solution": [
+        111.5,
+        94.5,
+        78.5
+      ],
+      "events": [
+        {
+          "angle": 111.5,
+          "matched": 3,
+          "dropped": 4,
+          "banks": 1
+        },
+        {
+          "angle": 94.5,
+          "matched": 3,
+          "dropped": 2,
+          "banks": 0
+        },
+        {
+          "angle": 78.5,
+          "matched": 3,
+          "dropped": 2,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 5,
+      "score": 1470,
+      "valid": true
+    },
+    {
+      "id": "puzzle-40",
+      "profile": "standard",
+      "startingCells": 12,
+      "shots": 1,
+      "solution": [
+        131.5
+      ],
+      "events": [
+        {
+          "angle": 131.5,
+          "matched": 3,
+          "dropped": 10,
+          "banks": 1
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 2210,
+      "valid": true
+    },
+    {
+      "id": "puzzle-40",
+      "profile": "compact",
+      "startingCells": 12,
+      "shots": 1,
+      "solution": [
+        131
+      ],
+      "events": [
+        {
+          "angle": 131,
+          "matched": 3,
+          "dropped": 10,
+          "banks": 1
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 2210,
+      "valid": true
+    },
+    {
+      "id": "puzzle-41",
+      "profile": "standard",
+      "startingCells": 12,
+      "shots": 3,
+      "solution": [
+        106,
+        91.5,
+        76.5
+      ],
+      "events": [
+        {
+          "angle": 106,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        },
+        {
+          "angle": 91.5,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        },
+        {
+          "angle": 76.5,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 5,
+      "score": 1260,
+      "valid": true
+    },
+    {
+      "id": "puzzle-41",
+      "profile": "compact",
+      "startingCells": 12,
+      "shots": 3,
+      "solution": [
+        111,
+        91.5,
+        72.5
+      ],
+      "events": [
+        {
+          "angle": 111,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        },
+        {
+          "angle": 91.5,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        },
+        {
+          "angle": 72.5,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 5,
+      "score": 1260,
+      "valid": true
+    },
+    {
+      "id": "puzzle-42",
+      "profile": "standard",
+      "startingCells": 25,
+      "shots": 5,
+      "solution": [
+        111.5,
+        94,
+        82.5,
+        77.5,
+        90
+      ],
+      "events": [
+        {
+          "angle": 111.5,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 1
+        },
+        {
+          "angle": 94,
+          "matched": 0,
+          "dropped": 0,
+          "banks": 0
+        },
+        {
+          "angle": 82.5,
+          "matched": 11,
+          "dropped": 10,
+          "banks": 0
+        },
+        {
+          "angle": 77.5,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        },
+        {
+          "angle": 90,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 8,
+      "score": 2452,
+      "valid": true
+    },
+    {
+      "id": "puzzle-42",
+      "profile": "compact",
+      "startingCells": 25,
+      "shots": 6,
+      "solution": [
+        95,
+        93,
+        80,
+        90,
+        105.5,
+        74.5
+      ],
+      "events": [
+        {
+          "angle": 95,
+          "matched": 0,
+          "dropped": 0,
+          "banks": 0
+        },
+        {
+          "angle": 93,
+          "matched": 0,
+          "dropped": 0,
+          "banks": 0
+        },
+        {
+          "angle": 80,
+          "matched": 11,
+          "dropped": 11,
+          "banks": 0
+        },
+        {
+          "angle": 90,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        },
+        {
+          "angle": 105.5,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        },
+        {
+          "angle": 74.5,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 8,
+      "score": 2562,
+      "valid": true
+    },
+    {
+      "id": "puzzle-43",
+      "profile": "standard",
+      "startingCells": 15,
+      "shots": 2,
+      "solution": [
+        91.5,
+        81
+      ],
+      "events": [
+        {
+          "angle": 91.5,
+          "matched": 3,
+          "dropped": 3,
+          "banks": 0
+        },
+        {
+          "angle": 81,
+          "matched": 3,
+          "dropped": 3,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 1400,
+      "valid": true
+    },
+    {
+      "id": "puzzle-43",
+      "profile": "compact",
+      "startingCells": 15,
+      "shots": 2,
+      "solution": [
+        92,
+        78
+      ],
+      "events": [
+        {
+          "angle": 92,
+          "matched": 3,
+          "dropped": 3,
+          "banks": 0
+        },
+        {
+          "angle": 78,
+          "matched": 3,
+          "dropped": 3,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 1400,
+      "valid": true
+    },
+    {
+      "id": "puzzle-44",
+      "profile": "standard",
+      "startingCells": 14,
+      "shots": 2,
+      "solution": [
+        99,
+        64.5
+      ],
+      "events": [
+        {
+          "angle": 99,
+          "matched": 3,
+          "dropped": 4,
+          "banks": 0
+        },
+        {
+          "angle": 64.5,
+          "matched": 3,
+          "dropped": 5,
+          "banks": 1
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 1630,
+      "valid": true
+    },
+    {
+      "id": "puzzle-44",
+      "profile": "compact",
+      "startingCells": 14,
+      "shots": 2,
+      "solution": [
+        101.5,
+        65
+      ],
+      "events": [
+        {
+          "angle": 101.5,
+          "matched": 3,
+          "dropped": 4,
+          "banks": 0
+        },
+        {
+          "angle": 65,
+          "matched": 3,
+          "dropped": 5,
+          "banks": 1
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 1630,
+      "valid": true
+    },
+    {
+      "id": "puzzle-45",
+      "profile": "standard",
+      "startingCells": 20,
+      "shots": 1,
+      "solution": [
+        118
+      ],
+      "events": [
+        {
+          "angle": 118,
+          "matched": 3,
+          "dropped": 18,
+          "banks": 1
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 4450,
+      "valid": true
+    },
+    {
+      "id": "puzzle-45",
+      "profile": "compact",
+      "startingCells": 20,
+      "shots": 1,
+      "solution": [
+        118
+      ],
+      "events": [
+        {
+          "angle": 118,
+          "matched": 3,
+          "dropped": 18,
+          "banks": 1
+        }
+      ],
+      "status": "cleared",
+      "target": 3,
+      "score": 4450,
+      "valid": true
+    },
+    {
+      "id": "puzzle-46",
+      "profile": "standard",
+      "startingCells": 12,
+      "shots": 4,
+      "solution": [
+        102,
+        92,
+        78,
+        88
+      ],
+      "events": [
+        {
+          "angle": 102,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        },
+        {
+          "angle": 92,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        },
+        {
+          "angle": 78,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        },
+        {
+          "angle": 88,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 6,
+      "score": 1280,
+      "valid": true
+    },
+    {
+      "id": "puzzle-46",
+      "profile": "compact",
+      "startingCells": 12,
+      "shots": 4,
+      "solution": [
+        105.5,
+        93,
+        74.5,
+        87
+      ],
+      "events": [
+        {
+          "angle": 105.5,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        },
+        {
+          "angle": 93,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        },
+        {
+          "angle": 74.5,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        },
+        {
+          "angle": 87,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 6,
+      "score": 1280,
+      "valid": true
+    },
+    {
+      "id": "puzzle-47",
+      "profile": "standard",
+      "startingCells": 16,
+      "shots": 3,
+      "solution": [
+        110,
+        68.5,
+        91.5
+      ],
+      "events": [
+        {
+          "angle": 110,
+          "matched": 3,
+          "dropped": 4,
+          "banks": 1
+        },
+        {
+          "angle": 68.5,
+          "matched": 3,
+          "dropped": 4,
+          "banks": 1
+        },
+        {
+          "angle": 91.5,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 5,
+      "score": 1560,
+      "valid": true
+    },
+    {
+      "id": "puzzle-47",
+      "profile": "compact",
+      "startingCells": 16,
+      "shots": 3,
+      "solution": [
+        111.5,
+        66.5,
+        91.5
+      ],
+      "events": [
+        {
+          "angle": 111.5,
+          "matched": 3,
+          "dropped": 4,
+          "banks": 1
+        },
+        {
+          "angle": 66.5,
+          "matched": 3,
+          "dropped": 4,
+          "banks": 1
+        },
+        {
+          "angle": 91.5,
+          "matched": 3,
+          "dropped": 1,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 5,
+      "score": 1560,
+      "valid": true
+    },
+    {
+      "id": "puzzle-48",
+      "profile": "standard",
+      "startingCells": 28,
+      "shots": 5,
+      "solution": [
+        107.5,
+        86,
+        68.5,
+        107,
+        90
+      ],
+      "events": [
+        {
+          "angle": 107.5,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        },
+        {
+          "angle": 86,
+          "matched": 0,
+          "dropped": 0,
+          "banks": 0
+        },
+        {
+          "angle": 68.5,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 1
+        },
+        {
+          "angle": 107,
+          "matched": 11,
+          "dropped": 13,
+          "banks": 0
+        },
+        {
+          "angle": 90,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 8,
+      "score": 3142,
+      "valid": true
+    },
+    {
+      "id": "puzzle-48",
+      "profile": "compact",
+      "startingCells": 28,
+      "shots": 6,
+      "solution": [
+        85,
+        87,
+        113,
+        74.5,
+        105.5,
+        90
+      ],
+      "events": [
+        {
+          "angle": 85,
+          "matched": 0,
+          "dropped": 0,
+          "banks": 0
+        },
+        {
+          "angle": 87,
+          "matched": 0,
+          "dropped": 0,
+          "banks": 0
+        },
+        {
+          "angle": 113,
+          "matched": 11,
+          "dropped": 14,
+          "banks": 1
+        },
+        {
+          "angle": 74.5,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        },
+        {
+          "angle": 105.5,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        },
+        {
+          "angle": 90,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 8,
+      "score": 3312,
+      "valid": true
+    },
+    {
+      "id": "puzzle-49",
+      "profile": "standard",
+      "startingCells": 24,
+      "shots": 3,
+      "solution": [
+        98,
+        86,
+        77.5
+      ],
+      "events": [
+        {
+          "angle": 98,
+          "matched": 3,
+          "dropped": 3,
+          "banks": 0
+        },
+        {
+          "angle": 86,
+          "matched": 3,
+          "dropped": 3,
+          "banks": 0
+        },
+        {
+          "angle": 77.5,
+          "matched": 3,
+          "dropped": 3,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 5,
+      "score": 1500,
+      "valid": true
+    },
+    {
+      "id": "puzzle-49",
+      "profile": "compact",
+      "startingCells": 24,
+      "shots": 3,
+      "solution": [
+        100.5,
+        84.5,
+        73.5
+      ],
+      "events": [
+        {
+          "angle": 100.5,
+          "matched": 3,
+          "dropped": 3,
+          "banks": 0
+        },
+        {
+          "angle": 84.5,
+          "matched": 3,
+          "dropped": 3,
+          "banks": 0
+        },
+        {
+          "angle": 73.5,
+          "matched": 3,
+          "dropped": 3,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 5,
+      "score": 1500,
+      "valid": true
+    },
+    {
+      "id": "puzzle-50",
+      "profile": "standard",
+      "startingCells": 31,
+      "shots": 2,
+      "solution": [
+        103.5,
+        78.5
+      ],
+      "events": [
+        {
+          "angle": 103.5,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 0
+        },
+        {
+          "angle": 78.5,
+          "matched": 3,
+          "dropped": 27,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 8510,
+      "valid": true
+    },
+    {
+      "id": "puzzle-50",
+      "profile": "compact",
+      "startingCells": 31,
+      "shots": 2,
+      "solution": [
+        115,
+        75.5
+      ],
+      "events": [
+        {
+          "angle": 115,
+          "matched": 3,
+          "dropped": 0,
+          "banks": 1
+        },
+        {
+          "angle": 75.5,
+          "matched": 3,
+          "dropped": 27,
+          "banks": 0
+        }
+      ],
+      "status": "cleared",
+      "target": 4,
+      "score": 8510,
+      "valid": true
+    }
+  ],
+  "catalogDigest": "905164f57d567ed506864473c70b99ed2b6cd1f042e8c6f696509e8bb244ea02",
+  "authoring": "Fifty separately designed occupied topologies across ten ordered chapters. Each Standard and Compact variant is explicitly stored as row strings, rather than cropping or procedurally generating a layout at runtime.",
+  "uniqueTopologies": 50,
+  "witnessShotDistribution": {
+    "1": 40,
+    "2": 38,
+    "3": 14,
+    "4": 2,
+    "5": 4,
+    "6": 2
+  },
+  "bankOpeningChecks": [
+    {
+      "id": "puzzle-11",
+      "profile": "standard",
+      "sampledDirectAngles": 1701,
+      "directMatches": 0,
+      "firstWitnessBanks": 1
+    },
+    {
+      "id": "puzzle-11",
+      "profile": "compact",
+      "sampledDirectAngles": 1701,
+      "directMatches": 0,
+      "firstWitnessBanks": 1
+    },
+    {
+      "id": "puzzle-12",
+      "profile": "standard",
+      "sampledDirectAngles": 1701,
+      "directMatches": 0,
+      "firstWitnessBanks": 1
+    },
+    {
+      "id": "puzzle-12",
+      "profile": "compact",
+      "sampledDirectAngles": 1701,
+      "directMatches": 0,
+      "firstWitnessBanks": 1
+    },
+    {
+      "id": "puzzle-13",
+      "profile": "standard",
+      "sampledDirectAngles": 1701,
+      "directMatches": 0,
+      "firstWitnessBanks": 1
+    },
+    {
+      "id": "puzzle-13",
+      "profile": "compact",
+      "sampledDirectAngles": 1701,
+      "directMatches": 0,
+      "firstWitnessBanks": 1
+    },
+    {
+      "id": "puzzle-14",
+      "profile": "standard",
+      "sampledDirectAngles": 1701,
+      "directMatches": 0,
+      "firstWitnessBanks": 1
+    },
+    {
+      "id": "puzzle-14",
+      "profile": "compact",
+      "sampledDirectAngles": 1701,
+      "directMatches": 0,
+      "firstWitnessBanks": 1
+    },
+    {
+      "id": "puzzle-15",
+      "profile": "standard",
+      "sampledDirectAngles": 1701,
+      "directMatches": 0,
+      "firstWitnessBanks": 1
+    },
+    {
+      "id": "puzzle-15",
+      "profile": "compact",
+      "sampledDirectAngles": 1701,
+      "directMatches": 0,
+      "firstWitnessBanks": 1
+    },
+    {
+      "id": "puzzle-36",
+      "profile": "standard",
+      "sampledDirectAngles": 1701,
+      "directMatches": 0,
+      "firstWitnessBanks": 1
+    },
+    {
+      "id": "puzzle-36",
+      "profile": "compact",
+      "sampledDirectAngles": 1701,
+      "directMatches": 0,
+      "firstWitnessBanks": 1
+    },
+    {
+      "id": "puzzle-37",
+      "profile": "standard",
+      "sampledDirectAngles": 1701,
+      "directMatches": 0,
+      "firstWitnessBanks": 1
+    },
+    {
+      "id": "puzzle-37",
+      "profile": "compact",
+      "sampledDirectAngles": 1701,
+      "directMatches": 0,
+      "firstWitnessBanks": 1
+    },
+    {
+      "id": "puzzle-38",
+      "profile": "standard",
+      "sampledDirectAngles": 1701,
+      "directMatches": 0,
+      "firstWitnessBanks": 1
+    },
+    {
+      "id": "puzzle-38",
+      "profile": "compact",
+      "sampledDirectAngles": 1701,
+      "directMatches": 0,
+      "firstWitnessBanks": 1
+    },
+    {
+      "id": "puzzle-39",
+      "profile": "standard",
+      "sampledDirectAngles": 1701,
+      "directMatches": 0,
+      "firstWitnessBanks": 1
+    },
+    {
+      "id": "puzzle-39",
+      "profile": "compact",
+      "sampledDirectAngles": 1701,
+      "directMatches": 0,
+      "firstWitnessBanks": 1
+    },
+    {
+      "id": "puzzle-40",
+      "profile": "standard",
+      "sampledDirectAngles": 1701,
+      "directMatches": 0,
+      "firstWitnessBanks": 1
+    },
+    {
+      "id": "puzzle-40",
+      "profile": "compact",
+      "sampledDirectAngles": 1701,
+      "directMatches": 0,
+      "firstWitnessBanks": 1
+    },
+    {
+      "id": "puzzle-47",
+      "profile": "standard",
+      "sampledDirectAngles": 1701,
+      "directMatches": 0,
+      "firstWitnessBanks": 1
+    },
+    {
+      "id": "puzzle-47",
+      "profile": "compact",
+      "sampledDirectAngles": 1701,
+      "directMatches": 0,
+      "firstWitnessBanks": 1
+    }
+  ]
+}
