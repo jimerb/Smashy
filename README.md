@@ -116,6 +116,8 @@ Desktop Chrome and Edge are the primary play targets, with Firefox checks as wel
 
 The trophy opens your personal top ten and recent results. Records are separated by mode, difficulty, layout, configuration, and assistance so unlike runs are not mixed. Classic records a finished board; Puzzles and Journey record the whole run rather than each intermediate clear.
 
+Finish in your top ten and your placing appears directly below the final score. A new personal best gets a trophy; results outside the top ten stay in Recent results without a rank announcement.
+
 Scores, settings, and the resumable game are stored locally. Another browser, browser profile, device, or site address has separate data. Clearing site data removes it. There are no accounts, cloud saves, or global leaderboards in this version.
 
 ## Run locally

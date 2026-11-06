@@ -1,5 +1,6 @@
 import "./style.css";
 import "./ui/help.css";
+import "./ui/records.css";
 import { mountHelpDialog, type HelpDialogView } from "./ui/help";
 import workshopArt from "../public/art/ready/workshop-night-ready-v1.webp";
 import wordmarkArt from "../public/art/ready/smashy-wordmark-ready-v1.png";
@@ -67,7 +68,7 @@ const icons: Record<string, string> = {
   mute: '<path d="m11 4-6 5H2v6h3l6 5V4Zm5 5 5 6m0-6-5 6"/>',
   pause: '<path d="M8 5v14M16 5v14"/>',
   close: '<path d="m6 6 12 12M18 6 6 18"/>',
-  gear: '<circle cx="12" cy="12" r="4"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3M5 5l2 2m10 10 2 2M5 19l2-2M17 7l2-2"/>',
+  gear: '<path d="M18.93 9.13L19.34 10.44L21.85 10.26L21.85 13.74L19.34 13.56L18.93 14.87L18.93 14.87L18.29 16.08L20.19 17.74L17.74 20.19L16.08 18.29L14.87 18.93L14.87 18.93L13.56 19.34L13.74 21.85L10.26 21.85L10.44 19.34L9.13 18.93L9.13 18.93L7.92 18.29L6.26 20.19L3.81 17.74L5.71 16.08L5.07 14.87L5.07 14.87L4.66 13.56L2.15 13.74L2.15 10.26L4.66 10.44L5.07 9.13L5.07 9.13L5.71 7.92L3.81 6.26L6.26 3.81L7.92 5.71L9.13 5.07L9.13 5.07L10.44 4.66L10.26 2.15L13.74 2.15L13.56 4.66L14.87 5.07L14.87 5.07L16.08 5.71L17.74 3.81L20.19 6.26L18.29 7.92L18.93 9.13Z"/><circle cx="12" cy="12" r="3.1"/>',
 };
 const svg = (name: string) =>
   `<svg viewBox="0 0 24 24" aria-hidden="true">${icons[name]}</svg>`;
@@ -1119,7 +1120,27 @@ function showOverlay() {
       ? `<p class="small score-breakdown"><strong>Last shot +${lastAward.total.toLocaleString()}</strong><br>Match +${lastAward.match.toLocaleString()} · Drop +${lastAward.drop.toLocaleString()}${game.status === "cleared" ? `<br>Board clear +${lastAward.clear.toLocaleString()} · Efficiency +${lastAward.efficiency.toLocaleString()}` : ""}</p>`
       : '<p class="small score-breakdown">No points on the last shot.</p>'
     : "";
-  const resultScore = `<div class="label">${wholeRun ? "Run total" : "Total score"}</div><div class="terminal-score">${game.score.toLocaleString()}</div>${awardDetails}`;
+  const decision = receipt?.decision;
+  const ranked =
+    decision?.rank !== null &&
+    decision?.rank !== undefined &&
+    decision.rank >= 1 &&
+    decision.rank <= 10;
+  const placement = ranked
+    ? `${["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th"][decision.rank! - 1]} best`
+    : "";
+  const record = ranked
+    ? decision.kind === "new-best"
+      ? "New personal best"
+      : decision.kind === "tied-best"
+        ? "Tied personal best"
+        : placement
+    : "";
+  const recognition =
+    terminal && isRunTerminal(game, progress) && lesson === null && record
+      ? `<div class="result-record">${svg("trophy")}<span class="result-badge">${record}</span>${decision?.kind === "tied-best" ? `<span class="result-placement">${placement}</span>` : ""}</div>`
+      : "";
+  const resultScore = `<div class="label">${wholeRun ? "Run total" : "Total score"}</div><div class="terminal-score">${game.score.toLocaleString()}</div>${recognition}${awardDetails}`;
   const goalResult = `${game.shots} shots · bonus goal ${game.config.target}. ${game.shots < game.config.target ? `${game.config.target - game.shots} under the goal.` : game.shots === game.config.target ? "At the bonus goal." : `${game.shots - game.config.target} over the goal.`}`;
   const lossCopy = isFloorFull(game)
     ? "The lowest row is completely blocked. There is no room for another shot."
@@ -1154,16 +1175,7 @@ function showOverlay() {
     if (progress.mode === "classic")
       resultGuidance =
         "Retry: same layout and toy order.<br>New: a freshly generated random board.";
-    const d = receipt?.decision;
-    const record =
-      d?.kind === "new-best"
-        ? "New personal best"
-        : d?.kind === "tied-best"
-          ? "Tied personal best"
-          : d?.rank
-            ? `Personal rank ${d.rank}`
-            : "";
-    html = `<div class="eyebrow">${lesson === null ? progress.mode : `Lesson ${(lesson ?? 0) + 1}`}</div><h2>${game.status === "cleared" ? "Beautifully smashed." : "Out of room."}</h2>${resultScore}<div class="result-badge">${record}</div><p>${game.status === "cleared" ? `${goalResult} ${lesson !== null ? "Try the next idea." : "One good shot makes room for another."}` : lossCopy}</p>${progress.mode === "classic" ? '<p class="small">Retry repeats this layout and toy order. A new board is randomly generated at the same difficulty and layout size.</p>' : ""}${lesson !== null && lesson < 2 && game.status === "cleared" ? '<button class="primary" data-action="next-lesson">Next lesson</button>' : ""}<button class="${lesson === null ? "primary" : ""}" data-action="retry">${progress.mode === "puzzles" || progress.mode === "journey" ? "Retry same run" : "Retry same board"}</button><button data-action="new-board">${progress.mode === "classic" ? "New random board" : "New Classic board"}</button><button class="quiet" data-action="home">Home</button>`;
+    html = `<div class="eyebrow">${lesson === null ? progress.mode : `Lesson ${(lesson ?? 0) + 1}`}</div><h2>${game.status === "cleared" ? "Beautifully smashed." : "Out of room."}</h2>${resultScore}<p>${game.status === "cleared" ? `${goalResult} ${lesson !== null ? "Try the next idea." : "One good shot makes room for another."}` : lossCopy}</p>${progress.mode === "classic" ? '<p class="small">Retry repeats this layout and toy order. A new board is randomly generated at the same difficulty and layout size.</p>' : ""}${lesson !== null && lesson < 2 && game.status === "cleared" ? '<button class="primary" data-action="next-lesson">Next lesson</button>' : ""}<button class="${lesson === null ? "primary" : ""}" data-action="retry">${progress.mode === "puzzles" || progress.mode === "journey" ? "Retry same run" : "Retry same board"}</button><button data-action="new-board">${progress.mode === "classic" ? "New random board" : "New Classic board"}</button><button class="quiet" data-action="home">Home</button>`;
   } else {
     html = `<h2>${stale ? "Board active elsewhere" : "Take a breath."}</h2><p>${stale ? "Resume here to take control. The other tab will pause when it next saves." : "Your board is waiting. No timer, no rush."}</p><button class="primary" data-action="resume">Resume${stale ? " here" : ""}</button><button data-action="settings">Settings</button><button data-action="retry-confirm">Restart this ${wholeRun ? "run" : "board"}</button><button class="quiet" data-action="home">Home</button>`;
   }
@@ -1237,6 +1249,7 @@ function openDialog(
   $("#dialog-body").innerHTML = body;
   $("#dialog-foot").innerHTML = footer;
   const dialog = $<HTMLDialogElement>("#dialog");
+  dialog.classList.remove("records-dialog");
   if (!dialog.open) dialog.showModal();
 }
 function closeDialog() {
@@ -1295,9 +1308,11 @@ async function showRecords() {
           .slice(0, 10);
   openDialog(
     "Personal bests",
-    `<label class="small muted" for="record-filter">Score category</label><select id="record-filter" style="width:100%;margin:6px 0 12px">${categories.map((c, i) => `<option value="${i}" ${categoryKey(c) === categoryKey(selected) ? "selected" : ""}>${escapeHTML(recordLabel(c))}</option>`).join("")}</select><div class="record-category">${escapeHTML(recordLabel(selected))}</div><div class="record-tabs"><button id="records-top" aria-pressed="${recordView === "top"}">Top ten</button><button id="records-recent" aria-pressed="${recordView === "recent"}">Recent results</button></div>${storageNotice ? `<p class="saved-notice">${storageNotice}</p>` : ""}${entries.length ? `<table class="score-table"><thead><tr><th>${recordView === "top" ? "Rank" : "Recent"}</th><th>Score</th><th>Result</th><th>Date</th></tr></thead><tbody>${entries.map((e, i) => `<tr><td>${i + 1}</td><td>${e.score.toLocaleString()}</td><td>${e.outcome === "clear" ? "Clear" : "Loss"}</td><td>${new Date(e.completedAt).toLocaleDateString(undefined, { year: "2-digit", month: "short", day: "numeric" })}</td></tr>`).join("")}</tbody></table>` : `<p>${recordView === "top" ? "Your finished runs will appear here." : "Finished runs appear here, including those outside your top ten."}</p>`}<p class="small">Saved only in this browser profile at this site address. Clearing site data removes local records. Recent history is limited. No account or cloud backup.</p>`,
+    `<div class="records-filter"><label for="record-filter">Category</label><div class="records-select"><select id="record-filter" title="${escapeHTML(recordLabel(selected))}">${categories.map((c, i) => `<option value="${i}" ${categoryKey(c) === categoryKey(selected) ? "selected" : ""}>${escapeHTML(recordLabel(c))}</option>`).join("")}</select><span class="records-selected" aria-hidden="true">${escapeHTML(recordLabel(selected))}</span></div></div><div class="record-tabs" role="group" aria-label="Score lists"><button id="records-top" aria-pressed="${recordView === "top"}">Top ten</button><button id="records-recent" aria-pressed="${recordView === "recent"}">Recent results</button></div>${storageNotice ? `<p class="saved-notice">${storageNotice}</p>` : ""}${entries.length ? `<table class="score-table ${recordView === "top" ? "records-ranked" : "records-recent"}"><caption class="sr-only">${recordView === "top" ? "Your ten highest scores" : "Your ten most recent results"}</caption><thead><tr><th scope="col">${recordView === "top" ? "Rank" : "Recent"}</th><th scope="col">Score</th><th scope="col" class="record-outcome-column">Result</th><th scope="col">Date</th></tr></thead><tbody>${entries.map((e, i) => `<tr class="${recordView === "top" && i < 3 ? `record-place-${i + 1}` : ""}"><td><span class="record-rank" aria-label="${recordView === "top" ? "Rank" : "Recent result"} ${i + 1}">${recordView === "top" && i === 0 ? `${svg("trophy")}<span class="sr-only">1</span>` : i + 1}</span></td><td><strong class="record-score">${e.score.toLocaleString()}</strong><small class="record-mobile-outcome">${e.outcome === "clear" ? "Cleared" : "Out of room"}</small></td><td class="record-outcome-column"><span class="record-outcome ${e.outcome}">${e.outcome === "clear" ? "Cleared" : "Out of room"}</span></td><td><time datetime="${new Date(e.completedAt).toJSON() ?? ""}" title="${escapeHTML(new Date(e.completedAt).toLocaleString())}">${new Date(e.completedAt).toLocaleDateString(undefined, { year: "2-digit", month: "short", day: "numeric" })}</time></td></tr>`).join("")}</tbody></table>` : `<div class="records-empty">${svg("trophy")}<h3>${recordView === "top" ? "Your first best is waiting." : "A fresh start."}</h3><p>${recordView === "top" ? "Finish a game with points to start your top ten." : "Your finished games will appear here."}</p></div>`}<p class="records-note" title="Clearing site data removes these scores. Scores are not synced to other browsers or devices.">Saved in this browser only.</p>`,
     `${storageNotice ? '<button data-action="retry-storage">Try saving again</button>' : ""}<button data-action="close-dialog">Done</button>`,
   );
+  $("#dialog").classList.add("records-dialog");
+  $("#dialog-title").innerHTML = `${svg("trophy")}<span>Personal bests</span>`;
   $<HTMLSelectElement>("#record-filter").onchange = async (e) => {
     recordCategory =
       categories[+(e.target as HTMLSelectElement).value] ?? current;
@@ -1324,11 +1339,9 @@ function recordLabel(c: ScoreCategory) {
   );
   if (cfg)
     extra = ` · ${cfg[1]}×${cfg[2]}, ${cfg[3]} starting rows, ${cfg[4]} types, ${cfg[5]} anchors, danger ${cfg[6]}, target ${cfg[7]}`;
-  if (isWideDesktop(c.configId)) extra += " · Wide arena v2";
-  else if (c.layout === "standard" && ["classic", "journey"].includes(c.mode))
-    extra += " · Legacy arena";
+
   const cap = (s: string) => s[0].toUpperCase() + s.slice(1);
-  return `${cap(c.mode)} · ${cap(c.difficulty)} difficulty · ${cap(c.layout)} layout · ${c.assisted ? "Assisted" : "Unassisted"}${extra}${c.rulesVersion === "1" ? "" : ` · Rules ${c.rulesVersion}`}`;
+  return `${cap(c.mode)} · ${cap(c.difficulty)} · ${isWideDesktop(c.configId) ? "Wide" : c.layout === "standard" && ["classic", "journey"].includes(c.mode) ? "Legacy" : cap(c.layout)} · ${c.assisted ? "Assisted" : "Unassisted"}${isWideDesktop(c.configId) ? "" : extra}${c.rulesVersion === "1" ? "" : ` · Rules ${c.rulesVersion}`}`;
 }
 async function retrySaving() {
   await writes;

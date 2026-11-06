@@ -218,8 +218,8 @@ try {
     .click();
   await page.locator("#dialog").waitFor({ state: "visible" });
   assert(
-    (await page.locator("#dialog-body").innerText()).includes(
-      "Classic · Standard difficulty · Compact layout",
+    (await page.locator("#record-filter option:checked").innerText()).includes(
+      "Classic · Standard · Compact",
     ),
   );
   await page.getByRole("button", { name: "Done", exact: true }).click();

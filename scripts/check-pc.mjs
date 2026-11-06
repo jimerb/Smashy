@@ -15,6 +15,7 @@ const scripts = [
   "campaign-restart-check",
   "descent-browser-check",
   "records-browser-check",
+  "scores-ui-browser-check",
   "viewport-browser-check",
   "visual-check",
   "reliability-browser-check",

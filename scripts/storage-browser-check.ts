@@ -307,9 +307,9 @@ try {
         .getByRole("button", { name: "Personal bests", exact: true })
         .click();
       assert(
-        (await page.locator(".record-category").innerText()).includes(
-          "Classic · Standard difficulty · Compact layout · Assisted",
-        ),
+        (
+          await page.locator("#record-filter option:checked").innerText()
+        ).includes("Classic · Standard · Compact · Assisted"),
       );
       const after = await envelope(page);
       assert.deepEqual(after, before);
@@ -393,9 +393,9 @@ try {
       await page.locator(".score-table").waitFor({ state: "visible" });
       assert.equal(await page.locator(".score-table tbody tr").count(), 1);
       assert(
-        (await page.locator(".record-category").innerText()).includes(
-          "Unassisted",
-        ),
+        (
+          await page.locator("#record-filter option:checked").innerText()
+        ).includes("Unassisted"),
       );
       await page.getByRole("button", { name: "Done", exact: true }).click();
       assert.equal(
