@@ -175,6 +175,20 @@ test("background visibility freezes audio and the remaining gap across preferenc
   assert.equal(f.media.plays.length, 2);
   assert.equal(f.gain.value, 0.12);
 });
+test("Home stays silent while a game-start gesture primes playback", async () => {
+  const f = fixture();
+  f.player.setPaused(true);
+  f.player.startFromGesture();
+  assert.equal(f.creations(), 0);
+  f.player.primeFromGesture();
+  assert.equal(f.creations(), 1);
+  assert(f.media.paused);
+  assert.equal(f.gain.value, 0);
+  f.player.setPaused(false);
+  await flush();
+  assert.equal(f.player.state, "playing");
+  assert.equal(f.gain.value, MUSIC_DEFAULT_VOLUME);
+});
 test("game pause preserves the song and cannot be bypassed by taps, settings or tab return", async () => {
   const f = fixture();
   f.player.startFromGesture();

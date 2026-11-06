@@ -104,6 +104,27 @@ export class SmashyMusic {
     else this.reconcile();
     this.changed();
   }
+  /** Unlock media during the play gesture without making Home audible. */
+  primeFromGesture() {
+    if (!this.gamePaused || this.hidden || this.muted || this.volume === 0)
+      return;
+    this.initialize();
+    if (!this.context || !this.media || !this.gain || this.unavailable) return;
+    this.gain.gain.value = 0;
+    if (this.media.getAttribute("src") !== this.track.url) {
+      this.media.src = this.track.url;
+      this.media.dataset.trackIndex = String(this.index);
+      this.media.dataset.trackTitle = this.track.title;
+    }
+    try {
+      if (this.context.state !== "running")
+        void this.context.resume().catch(() => {});
+      void this.media.play().catch(() => {});
+      this.media.pause();
+    } catch {
+      /* Playback can retry when the game becomes ready. */
+    }
+  }
   /** Call directly from a trusted tap/click/key; don't await gameplay audio first. */
   startFromGesture() {
     this.wanted = true;

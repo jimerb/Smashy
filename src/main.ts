@@ -365,8 +365,10 @@ const audioFlyout = mountAudioFlyout({
           ? "Tap a control to start music."
           : music.state === "unavailable"
             ? "Music unavailable. Reload to retry."
-            : music.state === "paused" && started && paused
-              ? "Music paused with the game."
+            : music.state === "paused"
+              ? started
+                ? "Music paused with the game."
+                : "Music starts when you play."
               : "",
         !audio.available
           ? "Sound effects unavailable."
@@ -400,6 +402,7 @@ const audioFlyout = mountAudioFlyout({
     void unlockAudio();
   },
 });
+music.setPaused(true); // Home and its dialogs are quiet until gameplay starts.
 function applySettings() {
   const caption = document.querySelector(".pad-caption");
   if (caption)
@@ -433,7 +436,9 @@ function updateMusicControls() {
               : music.state === "paused"
                 ? started && paused
                   ? "Music paused with the game."
-                  : "Music paused while this tab is away."
+                  : started
+                    ? "Music paused while this tab is away."
+                    : "Music starts when you play."
                 : `${music.state === "loading" ? "Loading" : "Playing"}: ${music.track.title}`;
   const output = document.querySelector("#music-volume-value");
   if (output) output.textContent = `${Math.round(settings.musicVolume * 100)}%`;
@@ -768,6 +773,7 @@ async function newRun(
   replace = false,
 ) {
   if (busy) return;
+  if (!started) music.primeFromGesture();
   busy = true;
   try {
     await unlockAudio();
@@ -1411,7 +1417,7 @@ function goHome() {
   $("#game").hidden = true;
   $("#home").hidden = false;
   started = false;
-  music.setPaused(false);
+  music.setPaused(true);
   updateHome();
 }
 function confirmAction(

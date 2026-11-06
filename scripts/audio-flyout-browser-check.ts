@@ -233,11 +233,14 @@ try {
       await page.locator(`#audio-${channel}-mute`).getAttribute("aria-pressed"),
       "false",
     );
-  await playing(page);
-  await gain(page, 0.08);
+  assert.equal(
+    await page.locator("audio[data-smashy-music]").count(),
+    0,
+    "Home stays silent even after opening audio controls",
+  );
   await effectsGain(page, 0.35);
   checks.push(
-    "Two-row flyout opens without toggling either channel; defaults are music 8% and effects 35%, with native music playing at gain 0.08",
+    "Two-row flyout opens without toggling either channel; defaults are music 8% and effects 35%, while Home music remains silent",
   );
 
   await page.locator("#audio-music-mute").click();
@@ -253,7 +256,7 @@ try {
   assert.equal((await mix(page)).musicVolume, 0.19);
   assert.equal((await mix(page)).volume, 0.47);
   assert.equal((await mix(page)).muted, true);
-  await gain(page, 0.19);
+  assert.equal(await page.locator("audio[data-smashy-music]").count(), 0);
   await effectsGain(page, 0);
   await page.locator("#audio-sound-mute").click();
   await effectsGain(page, 0.47);
@@ -302,9 +305,15 @@ try {
     "Settings and flyout synchronize in both directions, reload preserves independent levels/mutes, and saved music mute prevents media creation",
   );
   await page.locator("#audio-music-mute").click();
-  await playing(page);
+  assert.equal(
+    await page.locator("audio[data-smashy-music]").count(),
+    0,
+    "Unmuting on Home does not start music",
+  );
   await page.keyboard.press("Escape");
   await startClassic(page);
+  await playing(page);
+  await gain(page, 0.13);
   await trigger(page).click();
   const angle = await page.locator("#angle").innerText();
   const musicSlider = page.locator("#audio-music-volume");
@@ -435,22 +444,11 @@ try {
         () => (window as any).flyoutAudio.events,
       );
       assert(
-        events.some(
-          (e: any) =>
-            e.operation === "resume" &&
-            e.gesture === "pointerdown" &&
-            !e.accepted,
+        !events.some(
+          (event: any) =>
+            event.operation === "play" && event.gesture === "pointerdown",
         ),
-        "Policy rejects pointerdown resume",
-      );
-      assert(
-        events.some(
-          (e: any) =>
-            e.operation === "play" &&
-            e.gesture === "pointerdown" &&
-            !e.accepted,
-        ),
-        "Policy rejects pointerdown media play",
+        "No Home-screen music attempt occurs on pointerdown",
       );
       assert(
         events.some(
@@ -465,7 +463,10 @@ try {
         (e: any) => e.operation === "play" && e.accepted,
       );
       assert(firstPlay && ["touchend", "click"].includes(firstPlay.gesture));
-      assert(Math.abs(firstPlay.gain - 0.08) < 0.001);
+      assert(
+        Math.abs(firstPlay.gain) < 0.001,
+        "Gesture activation is silent until gameplay begins",
+      );
       await touchPage.waitForFunction(() => {
         const data = (window as any).flyoutAudio;
         return (
@@ -574,8 +575,8 @@ try {
         policyCases,
         errors,
         failure,
-      boundary:
-        "Headless installed Chrome, native AudioContext/media, trusted Playwright mouse/keyboard/touch input, emulated viewport geometry, an injected stricter completed-gesture policy and a one-shot SFX NotAllowedError. This does not certify physical iOS/Safari, physical touchscreen interaction, speaker/headphone output, or subjective audio comfort.",
+        boundary:
+          "Headless installed Chrome, native AudioContext/media, trusted Playwright mouse/keyboard/touch input, emulated viewport geometry, an injected stricter completed-gesture policy and a one-shot SFX NotAllowedError. This does not certify physical iOS/Safari, physical touchscreen interaction, speaker/headphone output, or subjective audio comfort.",
       },
       null,
       2,

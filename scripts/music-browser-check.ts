@@ -153,18 +153,24 @@ try {
     "No audio is created before interaction",
   );
   await page.getByRole("button", { name: "Settings", exact: true }).click();
+  assert.equal(
+    await page.locator("audio[data-smashy-music]").count(),
+    0,
+    "Home Settings stays silent",
+  );
+  assert(await page.locator("#setting-music").isChecked());
+  assert.equal(
+    await page.locator("#setting-music-volume").inputValue(),
+    "0.08",
+  );
+  await page.getByRole("button", { name: "Done", exact: true }).click();
+  await page.locator('[data-action="play"]').click();
   await page.waitForFunction(() => {
     const a = document.querySelector<HTMLAudioElement>(
       "audio[data-smashy-music]",
     );
     return a && !a.paused && a.currentTime > 0.05 && a.readyState >= 2;
   });
-  assert(await page.locator("#setting-music").isChecked());
-  assert.equal(
-    await page.locator("#setting-music-volume").inputValue(),
-    "0.08",
-  );
-  assert.equal(await page.locator("#music-volume-value").innerText(), "8%");
   const defaults = await page.evaluate(() => ({
     gain: (window as any).musicNode.gain.value,
     title: document.querySelector<HTMLAudioElement>("audio[data-smashy-music]")!
@@ -189,7 +195,7 @@ try {
     assert.equal(bad.status, 416);
   }
   checks.push(
-    "Music is lazy, starts from a real click at 8%, and all four AAC files support correct media byte ranges",
+    "Home and Home Settings stay silent; a new game starts music at 8%, and all four AAC files support correct media byte ranges",
   );
   const titles = [
     "Relaxed Pocket",
@@ -227,9 +233,11 @@ try {
       i + 1,
     );
     if (i === 0) {
-      await page.locator("#setting-music").uncheck();
+      await page.locator('[data-action="sound"]:visible').first().click();
+      await page.locator("#audio-music-mute").click();
       await page.waitForTimeout(300);
-      await page.locator("#setting-music").check();
+      await page.locator("#audio-music-mute").click();
+      await page.keyboard.press("Escape");
     }
     if (i === 1) {
       await page.evaluate(() => {
@@ -247,6 +255,7 @@ try {
         });
         document.dispatchEvent(new Event("visibilitychange"));
       });
+      await page.getByRole("button", { name: "Resume", exact: true }).click();
     }
     assert.deepEqual(
       errors,
@@ -313,26 +322,28 @@ try {
     });
     document.dispatchEvent(new Event("visibilitychange"));
   });
+  await page.getByRole("button", { name: "Resume", exact: true }).click();
   await page.waitForFunction(
     () => !document.querySelector<HTMLAudioElement>("audio")!.paused,
   );
   checks.push(
     "An injected visibility transition exercises the real app pause/resume wiring without advancing the playlist",
   );
-  await page.locator("#setting-muted").uncheck();
+  await page.locator('[data-action="sound"]:visible').first().click();
+  await page.locator("#audio-sound-mute").click();
   await page.waitForTimeout(150);
   assert(
     await page.locator("audio").evaluate((a: HTMLAudioElement) => !a.paused),
   );
-  await page.locator("#setting-music-volume").fill("0.19");
-  await page.locator("#setting-music-volume").dispatchEvent("input");
+  await page.locator("#audio-music-volume").fill("0.19");
+  await page.locator("#audio-music-volume").dispatchEvent("input");
   await page.waitForTimeout(200);
   assert(
     Math.abs(
       (await page.evaluate(() => (window as any).musicNode.gain.value)) - 0.19,
     ) < 0.001,
   );
-  await page.locator("#setting-music").uncheck();
+  await page.locator("#audio-music-mute").click();
   const time = await page
     .locator("audio")
     .evaluate((a: HTMLAudioElement) => a.currentTime);
@@ -362,10 +373,11 @@ try {
   );
   assert.equal(await page.locator("audio").count(), 0);
   await page.locator("#setting-music").check();
-  await page.waitForFunction(() => {
-    const a = document.querySelector<HTMLAudioElement>("audio");
-    return a && !a.paused && a.currentTime > 0.03;
-  });
+  assert.equal(
+    await page.locator("audio[data-smashy-music]").count(),
+    0,
+    "Enabling music in Home Settings stays silent",
+  );
   checks.push(
     "Music mute/volume work independently of SFX, preserve position, persist after reload, and respect a saved mute before downloading media",
   );
@@ -598,16 +610,18 @@ try {
   if (await page.locator("#confirm").isVisible())
     await page.locator("#confirm").click();
   await page.locator("#home").waitFor({ state: "visible" });
-  await page.waitForFunction(
-    () =>
-      !document.querySelector<HTMLAudioElement>("audio[data-smashy-music]")!
-        .paused,
+  await page.waitForTimeout(120);
+  const homePause = await musicSnapshot();
+  await remainsPaused(
+    homePause,
+    "Home stays silent after returning from gameplay",
   );
   await page.getByRole("button", { name: "Settings", exact: true }).click();
-  assert(
-    await page
-      .locator("audio[data-smashy-music]")
-      .evaluate((audio: HTMLAudioElement) => !audio.paused),
+  await page.locator("#setting-music").uncheck();
+  await page.locator("#setting-music").check();
+  await remainsPaused(
+    homePause,
+    "Home Settings interactions cannot restart music",
   );
   await page.getByRole("button", { name: "Done", exact: true }).click();
   await page.locator('[data-action="resume-saved"]').click();
@@ -626,7 +640,7 @@ try {
     "Explicit Resume after loading the saved board",
   );
   checks.push(
-    "Home ambience and Home Settings keep music playing; loading the saved board pauses it until explicit Resume without resetting the playlist",
+    "Home and Home Settings keep music paused; loading the saved board stays silent until explicit Resume without resetting the playlist",
   );
   assert.deepEqual(errors, []);
   assert.equal(sourceDigest().digest, source);
