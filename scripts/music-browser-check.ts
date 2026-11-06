@@ -138,6 +138,33 @@ try {
           .length >= count,
       i + 1,
     );
+    if (i === 0) {
+      await page.locator("#setting-music").uncheck();
+      await page.waitForTimeout(300);
+      await page.locator("#setting-music").check();
+    }
+    if (i === 1) {
+      await page.evaluate(() => {
+        Object.defineProperty(document, "hidden", {
+          configurable: true,
+          value: true,
+        });
+        document.dispatchEvent(new Event("visibilitychange"));
+      });
+      await page.waitForTimeout(300);
+      await page.evaluate(() => {
+        Object.defineProperty(document, "hidden", {
+          configurable: true,
+          value: false,
+        });
+        document.dispatchEvent(new Event("visibilitychange"));
+      });
+    }
+    assert.deepEqual(
+      errors,
+      [],
+      "Muting/hiding during the actual native inter-song timer must not throw",
+    );
     await page.waitForFunction(
       (index) => {
         const a = document.querySelector<HTMLAudioElement>(
@@ -168,7 +195,7 @@ try {
     );
   }
   checks.push(
-    "Native media decoding/ended events play 1→2→3→4→1 with a measured five-second gap at every boundary",
+    "Native media plays 1→2→3→4→1 with five-second active gaps, retaining the gap through mute and simulated hidden-tab interruptions",
   );
   await page.evaluate(() => {
     Object.defineProperty(document, "hidden", {

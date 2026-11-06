@@ -44,7 +44,7 @@ export class SmashyMusic {
     this.now = options.now ?? (() => performance.now());
     this.schedule =
       options.schedule ?? ((callback, delay) => setTimeout(callback, delay));
-    this.cancel = options.cancel ?? clearTimeout;
+    this.cancel = options.cancel ?? ((timer) => clearTimeout(timer));
   }
   get state() {
     if (this.unavailable) return "unavailable";
