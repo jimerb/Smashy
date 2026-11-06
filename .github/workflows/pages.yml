@@ -48,7 +48,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     permissions:
       pages: write
       id-token: write
@@ -59,3 +59,6 @@ jobs:
       - name: Deploy game
         id: deployment
         uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
+        with:
+          # Allow for the Pages queue and file sync before canceling publication.
+          timeout: 900000
