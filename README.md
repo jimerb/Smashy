@@ -39,6 +39,8 @@ These show the actual game. The tablet and phone views were captured at represen
 
 ## How to play
 
+**[▶ Play Now!](https://jimerb.github.io/Smashy/)**
+
 ### Connect three. Cut the support.
 
 A match is a **connected group of three or more toys of the same type**. It can bend around a corner; it does not need to form a straight row.
